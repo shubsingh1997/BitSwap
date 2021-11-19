@@ -57,7 +57,7 @@ exports.login = async (req, res) => {
 exports.register = (req, res) => {
   console.log(req.body);
 
-  const { firstname,lastname,ssn,phone,cellphone,email, password, passwordConfirm } = req.body;
+  const { firstname,lastname,ssn,street,city, zip,state, phone,cellphone,email, password, passwordConfirm } = req.body;
   let user_id
   db.query('SELECT max(User_ID)as max FROM user', (error, result) => {
     console.log(result);
@@ -96,7 +96,43 @@ exports.register = (req, res) => {
         });
       }
     })
+    if(zip!=null){
+    db.query('INSERT INTO address SET ?', {User_ID:user_id,Street_Address:street,city:city,zip:zip,state:state}, (error, results) => {
+      if(error) {
+        console.log(error);
+      } else {
+        console.log(results);
 
+      }
+    })
+    let client_id="C_".concat("", user_id);
+    db.query('INSERT INTO client SET ?', {User_ID:user_id,Client_ID:client_id,tier:"Silver"}, (error, results) => {
+      if(error) {
+        console.log(error);
+      } else {
+        console.log(results);
+
+      }
+    })
+    db.query('INSERT INTO wallet SET ?', {Client_ID:client_id,D_amount:0,B_amount:0}, (error, results) => {
+      if(error) {
+        console.log(error);
+      } else {
+        console.log(results);
+
+      }
+    })
+  }
+  else{
+    let trader_id="T_".concat(" ", user_id);
+    db.query('INSERT INTO trader SET ?', {User_ID:user_id,Tradert_ID:trader_id}, (error, results) => {
+      if(error) {
+        console.log(error);
+      } else {
+        console.log(results);
+      }
+    })
+  }
 
   });
 
@@ -114,7 +150,7 @@ exports.isLoggedIn = async (req, res, next) => {
       console.log(decoded);
 
       //2) Check if the user still exists
-      db.query('SELECT * FROM user WHERE User_ID = ?', [decoded.id], (error, result) => {
+      db.query('SELECT * FROM ((user INNER JOIN client ON user.User_ID = client.User_ID) INNER JOIN wallet ON wallet.Client_ID = client.Client_ID) WHERE user.User_ID = ?', [decoded.id], (error, result) => {
         console.log(result);
 
         if(!result) {
@@ -142,5 +178,5 @@ exports.logout = async (req, res) => {
     httpOnly: true
   });
 
-  res.status(200).redirect('/');
+  res.status(200).redirect('/logout');
 }

@@ -16,6 +16,9 @@ router.get('/register', (req, res) => {
 router.get('/login', (req, res) => {
   res.render('login');
 });
+router.get('/logout', (req, res) => {
+  res.render('logout');
+});
 
 router.get('/profile', authController.isLoggedIn, (req, res) => {
   console.log(req.user);
