@@ -97,7 +97,7 @@ exports.register = (req, res) => {
       }
     })
     console.log("value "+radio1);
-    if(radio1.value=="Client"){
+    if(radio1=="Client"){
     db.query('INSERT INTO address SET ?', {User_ID:user_id,Street_Address:street,city:city,zip:zip,state:state}, (error, results) => {
       if(error) {
         console.log(error);
@@ -121,6 +121,16 @@ exports.register = (req, res) => {
       } else {
         console.log(results);
 
+      }
+    })
+  }
+  else if(radio1=="Manager"){
+    let manager_id = "M_".concat("", user_id);
+    db.query('INSERT INTO manager SET ?', {User_ID:user_id,Manager_ID:manager_id}, (error, results) => {
+      if(error) {
+        console.log(error);
+      } else {
+        console.log(results);
       }
     })
   }
