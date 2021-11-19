@@ -57,7 +57,7 @@ exports.login = async (req, res) => {
 exports.register = (req, res) => {
   console.log(req.body);
 
-  const { firstname,lastname,ssn,street,city, zip,state, phone,cellphone,email, password, passwordConfirm } = req.body;
+  const { firstname,lastname,ssn,street,city, zip,state, phone,cellphone,email, password, passwordConfirm,radio1 } = req.body;
   let user_id
   db.query('SELECT max(User_ID)as max FROM user', (error, result) => {
     console.log(result);
@@ -96,7 +96,8 @@ exports.register = (req, res) => {
         });
       }
     })
-    if(zip!=null){
+    console.log("value "+radio1);
+    if(radio1.value=="Client"){
     db.query('INSERT INTO address SET ?', {User_ID:user_id,Street_Address:street,city:city,zip:zip,state:state}, (error, results) => {
       if(error) {
         console.log(error);
@@ -124,8 +125,8 @@ exports.register = (req, res) => {
     })
   }
   else{
-    let trader_id="T_".concat(" ", user_id);
-    db.query('INSERT INTO trader SET ?', {User_ID:user_id,Tradert_ID:trader_id}, (error, results) => {
+    let trader_id="T_".concat("", user_id);
+    db.query('INSERT INTO trader SET ?', {User_ID:user_id,Trader_ID:trader_id}, (error, results) => {
       if(error) {
         console.log(error);
       } else {
