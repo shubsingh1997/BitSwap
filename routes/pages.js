@@ -20,6 +20,19 @@ router.get('/logout', (req, res) => {
   res.render('logout');
 });
 
+router.get('/wallet', authController.isLoggedIn, (req, res) => {
+  
+  console.log(req.user);
+  if( req.user ) {
+    res.render('wallet', {
+      user: req.user
+    });
+  } else {
+    res.redirect('/login');
+  }
+  
+});
+
 router.get('/profile', authController.isLoggedIn, (req, res) => {
   console.log(req.user);
   if( req.user ) {

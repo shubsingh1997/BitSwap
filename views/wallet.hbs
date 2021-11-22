@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <link rel="stylesheet" href="/style.css">
+  <title>Document</title>
+</head>
+<body>
+      <nav>
+    <h4>BitSwap</h4>
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/profile">Profile</a></li>
+      <li><a href="/auth/logout">Logout</a></li>
+    </ul>
+  </nav>
+
+  <div class="container mt-4">
+    <div class="row">
+      <div class="col-4">
+        <div class="card">
+          <div class="avatar-ctn">
+            <img src="/avatar.png" class="avatar" alt="user profile picture"/>
+          </div>
+          <div class="card-body" style="background-color:{{user.Tier}};text-align: center ">
+            <h5 class="card-title" align="text-center">{{user.First_Name}}</h5>
+            <p class="card-text">Current Bit Coins: {{user.B_amount}} </p>
+            <p class="card-text">Current $ amount in wallet: {{user.D_amount}} $</p>
+            <input type="button" style="background-color:{{user.Tier}};color:white;" value="{{user.Tier}} Customer">
+          </div>
+        </div>
+      </div>
+
+  <div class="col-8">
+        <div class="card text-center">
+          <div class="card-header">
+            Wallet
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">Select what you want to do</h5>
+            <p class="card-text">
+              Add Dollars  <input type="radio" class="Positive" name="radio1" value="positive" onClick="getResults(this)">    
+              Remove Dollars  <input type="radio" class="Negative" name="radio1" value="negative" onclick="getResults(this)">
+              show transactions  <input type="radio" class="Show" name="radio1" value="show_tranasaction" onclick="getResults(this)">   
+              <div class="positive">
+                <form action="/auth/wallet/positive" method="POST">
+        
+                
+                
+
+                <div class="dollars"><label> Add $ Amount bellow  </label>
+                <input type="number" class="form-control" id="D_amount" name="D_amount">
+                <button type="button" class="btn btn-primary" onclick="getConfirmation_P(D_amount)">Add Dollars</button></div>
+                
+                
+                <div class="submission_P">
+                <button type="submit" class="btn btn-primary" >Confirm</button>
+                </div>
+
+                </form>
+              </div>
+              <div class="negative">
+                <form action="/auth/wallet/negative" method="POST">
+        
+                
+                
+
+                <div class="dollars"><label> Remove $ Amount bellow  </label>
+                <input type="number" class="form-control" id="D_amount" name="D_amount">
+                <button type="button" class="btn btn-primary" onclick="getConfirmation_N(D_amount)">Remove Dollars</button></div>
+                
+                
+                <div class="submission_N">
+                <button type="submit" class="btn btn-primary" >Confirm</button>
+                </div>
+                
+                </form>
+              </div>  
+              <div class="show_tranasaction">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>
+                        Date_Time
+                      </th>
+                      <th>
+                        Wallet_Transaction_Amount
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {{#each data}}
+                    <tr>
+                      <td>
+                        {{this.Date_Time}}
+                      </td>
+                      <td>
+                        {{this.Wallet_Transaction_Amount}}
+                      </td>
+                    </tr>
+                    {{/each}}
+                  </tbody>
+                </table>
+
+
+              </div>
+            </p>
+            {{#if message }}
+                <h4 class="alert alert-danger mt-4">{{message}}</h4>
+            {{/if}}
+          </div>
+          <div class="card-footer text-muted">
+            BitSwap
+            <div class="show">
+              {{transactions}}
+
+            </div>
+
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+  <script>$(document).ready(function() {
+    
+    $(".submission_P").hide();
+    $(".submission_N").hide();
+    $(".positive").hide();
+    $(".negative").hide();
+    $(".show_tranasaction").hide();
+    $(".show").hide();
+    });
+    function getConfirmation_P(type){
+        if (type ="D_amount"){
+          console.log("D_amount");
+            var r = confirm("You are adding" + document.getElementById(type).value + " Dollars to your account" );
+            if (r == true)
+            {
+              $(".submission_P").show();
+            }
+        }
+        
+    };
+
+    function getConfirmation_N(type){
+        if (type ="D_amount"){
+          console.log("D_amount");
+            var r = confirm("You are adding" + document.getElementById(type).value + " Dollars to your account" );
+            if (r == true)
+            {
+              $(".submission_N").show();
+            }
+        }
+        
+    };
+
+    function getResults(elem) {
+
+        if (elem.checked == true)
+        {
+            if (elem.value == "Dollar")
+            {
+                //console.log(elem.value)
+                $(".dollars").show();       
+            }
+        }
+    };
+
+    function getResults(elem) {
+      if (elem.checked == true)
+      {
+        if (elem.value == "positive")
+        {
+          $(".positive").show() 
+        }
+        if (elem.value == "negative")
+        {
+          $(".negative").show() 
+        }
+        if (elem.value == "show_tranasaction")
+        {
+          $(".show_tranasaction").show()
+          router.set('/wallet/show_transaction');
+        }
+      }
+    
+    };
+  </script>
+</body>
+</html>
