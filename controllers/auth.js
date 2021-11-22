@@ -18,7 +18,7 @@ exports.login = async (req, res) => {
       return res.status(400).render('login', {
         message: 'Please provide an email and password'
       })
-    }
+    }    
     
     
     db.query('SELECT * FROM user WHERE email = ?', [email], async (error, results) => {
@@ -96,7 +96,7 @@ exports.register = (req, res) => {
         });
       }
     })
-    console.log("value "+radio1);
+    console.log("alue of Radio Button: "+radio1);
     if(radio1=="Client"){
     db.query('INSERT INTO address SET ?', {User_ID:user_id,Street_Address:street,city:city,zip:zip,state:state}, (error, results) => {
       if(error) {

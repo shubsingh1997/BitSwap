@@ -1,5 +1,7 @@
 const express = require('express');
+//const { cond } = require('lodash');
 const authController = require('../controllers/auth');
+const managerController = require('../controllers/managerController');
 
 const router = express.Router();
 
@@ -30,6 +32,12 @@ router.get('/profile', authController.isLoggedIn, (req, res) => {
     res.redirect('/login');
   }
   
+})
+
+router.get('/summary', (req,res) => {        
+  console.log(req);
+  //return res.send("Hii Manager");
+  res.render('manager');
 })
 
 module.exports = router;
