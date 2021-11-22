@@ -73,6 +73,7 @@ router.get('/user-logs', function (req, res) {
     res.render('statistics', { title: 'User Logs', data: results });
   });
 });
+//Testing commit
 
 
 module.exports = router;
