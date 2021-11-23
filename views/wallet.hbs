@@ -133,7 +133,7 @@
     $(".positive").hide();
     $(".negative").hide();
     $(".show_tranasaction").hide();
-    $(".show").hide();
+   
     });
     function getConfirmation_P(type){
         if (type ="D_amount"){
@@ -150,7 +150,7 @@
     function getConfirmation_N(type){
         if (type ="D_amount"){
           console.log("D_amount");
-            var r = confirm("You are adding" + document.getElementById(type).value + " Dollars to your account" );
+            var r = confirm("You are removing" + document.getElementById(type).value + " Dollars to your account" );
             if (r == true)
             {
               $(".submission_N").show();

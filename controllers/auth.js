@@ -282,14 +282,15 @@ exports.walletTransaction_negative = async (req,res) => {
           var client_id = "C_" + result[0].User_ID;
           var d_amount = result[0].D_amount;
           //console.log("-----------------------------------" + d_amount + ">=" + req.body.D_amount + "---------------------------------")
-          if( parseInt(d_amount) <= parseInt(req.body.D_amount)) {
+          if( parseInt(d_amount) < parseInt(req.body.D_amount)) {
             console.log("-----------------------------------" + d_amount + ">=" + req.body.D_amount + "---------------------------------")
+
             //alert("Insufficient amount");
             return res.status(400).render('wallet', {
-              //message: ' Insufficient amount'
+              message: ' Insufficient amount'
             });
           }
-
+          console.log("---------------------out of if ______________");
           var new_Damount = parseInt(d_amount) - parseInt(req.body.D_amount);
           wallet_transaction_amount = "-" + req.body.D_amount;
     
@@ -303,10 +304,10 @@ exports.walletTransaction_negative = async (req,res) => {
             db.query('INSERT INTO wallet_transaction SET ?', {Transaction_ID:tc_ID,Date_Time:datetime,Client_ID:client_id,Wallet_Transaction_Amount:wallet_transaction_amount});
             console.log("completed")
           }); 
-    
+          res.status(200).redirect('/profile');
         });
         
-        res.status(200).redirect('/profile');
+        //res.status(200).redirect('/profile');
       }
       
       

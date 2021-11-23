@@ -1,6 +1,6 @@
 const express = require('express');
 const authController = require('../controllers/auth');
-
+const transactionController = require('../controllers/transaction');
 const router = express.Router();
 
 router.get('/', authController.isLoggedIn, (req, res) => {
@@ -33,6 +33,20 @@ router.get('/wallet', authController.isLoggedIn, (req, res) => {
   
 });
 
+
+router.get('/payment', authController.isLoggedIn, (req, res) => {
+  
+  console.log(req.user);
+  if( req.user ) {
+    res.render('payment', {
+      user: req.user
+    });
+  } else {
+    res.redirect('/login');
+  }
+  
+});
+
 router.get('/profile', authController.isLoggedIn, (req, res) => {
   console.log(req.user);
   if( req.user ) {
@@ -44,5 +58,11 @@ router.get('/profile', authController.isLoggedIn, (req, res) => {
   }
   
 })
+
+
+router.post('/payment/transactions_B' , transactionController.transaction_B);
+
+router.post('/payment/transactions_S' , transactionController.transaction_S);
+
 
 module.exports = router;
