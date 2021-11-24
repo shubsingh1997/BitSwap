@@ -2,6 +2,7 @@ const express = require('express');
 const authController = require('../controllers/auth');
 const transactionController = require('../controllers/transaction');
 const router = express.Router();
+const traderController = require('../controllers/trader')
 
 router.get('/', authController.isLoggedIn, (req, res) => {
   res.render('index', {
@@ -64,5 +65,6 @@ router.post('/payment/transactions_B' , transactionController.transaction_B);
 
 router.post('/payment/transactions_S' , transactionController.transaction_S);
 
-
+router.get("/trader", traderController.traderprofile);
+router.post("/trader/client", traderController.findclient);
 module.exports = router;
