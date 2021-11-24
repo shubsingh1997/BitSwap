@@ -1,9 +1,11 @@
 const express = require('express');
 const authController = require('../controllers/auth');
 const transactionController = require('../controllers/transaction');
+const live_dataController = require('../controllers/live_price');
+
 const router = express.Router();
 
-router.get('/', authController.isLoggedIn, (req, res) => {
+router.get('/', authController.isLoggedIn, (req, res) => { 
   res.render('index', {
     user: req.user
   });
@@ -62,7 +64,9 @@ router.get('/profile', authController.isLoggedIn, (req, res) => {
 
 router.post('/payment/transactions_B' , transactionController.transaction_B);
 
-router.post('/payment/transactions_S' , transactionController.transaction_S);
+router.post('/payment/transactions_S' , transactionController.transaction_S );
+
+router.get('/index/live_price' , live_dataController.livedata_print);
 
 
 module.exports = router;
