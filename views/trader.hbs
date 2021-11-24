@@ -47,7 +47,7 @@
                         <form action="/trader/client" method="POST">
                             {{!-- /trader/client --}}
                             <div class="form-group">
-                                <label for="Name">Client Name</label>
+                                <label for="Name">Client Email</label>
                                 <input type="text" class="form-control" id="clientemail" name="clientemail">
                             </div>
                             
@@ -63,12 +63,9 @@
                             <button type="submit" class="btn btn-primary">View Transactions</button>
                         </form>
                         <br>
-                        <form action="/trader/client/Buy" method="POST">
-                            <button type="submit" class="btn btn-primary">Buy Bitcoins</button>
-                        </form>
-                        <br>
-                        <form action="/trader/client/Sell" method="POST">
-                            <button type="submit" class="btn btn-primary">Sell Bitcoins</button>
+                        <form action="/trader/client/trade" method="Post">
+                            <input type="hidden" id="userID" name="userID" value="{{searched_client.User_ID}}">
+                            <button type="submit" class="btn btn-primary">Buy/Sell Bitcoins</button>
                         </form>
 
                         
