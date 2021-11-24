@@ -34,9 +34,8 @@ router.get('/profile', authController.isLoggedIn, (req, res) => {
   
 })
 
-router.get('/summary', (req,res) => {        
+router.get('/manager', (req,res) => {        
   console.log(req);
-  //return res.send("Hii Manager");
   res.render('manager');
 })
 

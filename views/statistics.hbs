@@ -21,46 +21,218 @@
     </nav>
 
 
-    <center> <h2 style="color: brown;"> {{ title }}</h2></center>
-    <div class="table-data">
-        <table class="table table-striped">
-            <thead>
-                <tr style="color: blue;">
-                    <th scope="col">
-                        <center>User_ID</center>
-                    </th>
-                    <th scope="col">
-                        <center>Client_ID</center>
-                    </th>
-                    <th scope="col">
-                        <center>Transaction_ID</center>
-                    </th>
-                    <th scope="col">First_Name</th>
-                    <th scope="col">Phone_number</th>
-                </tr>
-            </thead>
-            <tbody>
-                {{#each data }}
-                <tr>
-                    <td>
-                        <center>{{this.User_ID}}</center>
-                    </td>
-                    <td>
-                        <center>{{this.Client_ID}}</center>
-                    </td>
-                    <td>
-                        <center>{{this.Transaction_ID }}</center>
-                    </td>
-                    <td>
-                        {{this.First_Name }}
-                    </td>
-                    <td>
-                        {{this.Phone_number}}
-                    </td>
-                </tr>
-                {{/each}}
-            </tbody>
-        </table>
+
+    <div class="container mt-4s">
+        <div class="card">
+            <div class="card-header">
+                Select date range to check logs of Transactions
+            </div>
+            <div class="card-body">
+                <form action="/manager/datewise-logs" method="post">
+                    <div class="form-group">
+                        <label for="start_date">From: </label>
+                        <input type="date" class="form-control" id="start_date" name="start_date">
+                    </div>
+                    <div class="form-group">
+                        <label for="end_date">To: </label>
+                        <input type="date" class="form-control" id="end_date" name="end_date">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Show Transactions</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <center>
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title">Total number of Clients Invested Money are: </h5>
+                <p>
+                <h2> {{Clients.length}} </h2>
+                </p>
+                <a href="/manager/total-clients" class="btn btn-info">Show number of Clients</a>
+            </div>
+
+            <div class="card-body">
+                <h5 class="card-title">Total number of Traders Invested Money are: </h5>
+                <p>
+                <h2> {{Traders.length}} </h2>
+                </p>
+                <a href="/manager/total-traders" class="btn btn-info">Show number of Traders</a>
+            </div>
+        </div>
+    </center>
+
+
+    <div class="container mt-4s">
+        <div class="card">
+            <div class="card-header">
+                Select date range to see commision recieved
+            </div>
+            <div class="card-body">
+                <form action="/manager/datewise-Commision" method="post">
+                    <div class="form-group">
+                        <label for="start_date">From: </label>
+                        <input type="date" class="form-control" id="start_date" name="start_date">
+                    </div>
+                    <div class="form-group">
+                        <label for="end_date">To: </label>
+                        <input type="date" class="form-control" id="end_date" name="end_date">
+                    </div>
+                    Dollars &nbsp; &nbsp;<input type="radio" class="commision" name="radio2" value="dollars"
+                        onClick="getResults(this)">
+                    &nbsp; &nbsp; Bitcoins &nbsp; &nbsp;<input type="radio" class="commision" name="radio2"
+                        value="bitcoins" onClick="getResults(this)">
+
+                    &nbsp; &nbsp;&nbsp; &nbsp;<button type="submit" class="btn btn-secondary">Calculate total
+                        commision</button>
+
+                    <h4> {{ d_title }}  {{ dollar_Commision.commision }} </h4>
+                    <h4> {{ b_title }}  {{ bitcoin_Commision.commision }} </h4>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+
+    <center>
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title">Total Commision recieved in Dollars ($) </h5>
+                <p>
+                <h2> {{ dollarCommision.commision }}</h2>
+                </p>
+                <a href="/manager/total-dCommision" class="btn btn-primary">Commision in Dollars</a>
+            </div>
+
+            <div class="card-body">
+                <h5 class="card-title">Total Commision recieved in Bitcoins </h5>
+                <p>
+                <h2> {{ BitcoinCommision.commision }} </h2>
+                </p>
+                <a href="/manager/total-bCommision" class="btn btn-primary">Commision in Bitcoins</a>
+            </div>
+        </div>
+    </center>
+
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 mb-4">
+                <div class="card">
+
+                    <div class="card-body">
+                        <p class="card-text">
+                            Daily Transactions by Clients
+                        </p>
+
+                        <a href="/manager/daily-clogs" class="btn btn-primary btn-sm">
+                            Show Transactions
+                        </a>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 mb-4">
+                <div class="card">
+
+                    <div class="card-body">
+                        <p class="card-text">
+                            Daily Transactions by Traders
+                        </p>
+
+                        <a href="/manager/daily-tlogs" class="btn btn-primary btn-sm">
+                            Show Transactions
+                        </a>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 mb-4">
+                <div class="card">
+
+                    <div class="card-body">
+                        <p class="card-text">
+                            Weekly Transactions by Clients
+                        </p>
+
+                        <a href="/manager/weekly-clogs" class="btn btn-primary btn-sm">
+                            Show Transactions
+                        </a>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 mb-4">
+                <div class="card">
+
+                    <div class="card-body">
+                        <p class="card-text">
+                            Weekly Transactions by Traders
+                        </p>
+
+                        <a href="/manager/weekly-tlogs" class="btn btn-primary btn-sm">
+                            Show Transactions
+                        </a>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 mb-4">
+                <div class="card">
+
+                    <div class="card-body">
+                        <p class="card-text">
+                            Monthly Transactions by Clients
+                        </p>
+
+                        <a href="/manager/monthly-clogs" class="btn btn-primary btn-sm">
+                            Show Transactions
+                        </a>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 mb-4">
+                <div class="card">
+
+                    <div class="card-body">
+                        <p class="card-text">
+                            Monthly Transactions Traders
+                        </p>
+
+                        <a href="/manager/monthly-tlogs" class="btn btn-primary btn-sm">
+                            Show Transactions
+                        </a>
+
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
