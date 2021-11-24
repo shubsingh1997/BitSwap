@@ -9,6 +9,87 @@
 <!DOCTYPE HTML>
 <html>
 <head>
+
+<style>
+.switch {
+        position: relative;
+        display: inline-block;
+        width: 150px;
+        height: 34px;
+      }
+
+      .switch input {display:none;}
+
+      .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ca2222;
+        -webkit-transition: .4s;
+        transition: .4s;
+      }
+
+      .slider.round {
+        border-radius: 34px;
+      }
+
+      .slider.round:before {
+        border-radius: 50%;
+      }
+
+      .slider:before {
+        position: absolute;
+        content: "";
+        height: 26px;
+        width: 26px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        -webkit-transition: .4s;
+        transition: .4s;
+      }
+
+      input:checked + .slider {
+        background-color: #2ab934;
+      }
+
+      input:focus + .slider {
+        box-shadow: 0 0 1px #2196F3;
+      }
+
+      input:checked + .slider:before {
+        -webkit-transform: translateX(117px);
+        -ms-transform: translateX(117px);
+        transform: translateX(117px);
+      }
+
+      .on
+      {
+        display: none;
+      }
+
+      .on, .off
+      {
+        color: white;
+        position: absolute;
+        transform: translate(-50%,-50%);
+        top: 50%;
+        left: 50%;
+        font-size: 10px;
+        font-family: Verdana, sans-serif;
+      }
+
+      input:checked+ .slider .on
+      {display: block;}
+
+      input:checked + .slider .off
+      {display: none;}
+
+</style>
+
   <script type="text/javascript">
   window.onload = function () {
     var chart = new CanvasJS.Chart("chartContainer",
@@ -43,8 +124,6 @@
   }
   </script>
  <script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script></head>
-  
-
 
 </head>
 <body>
@@ -81,20 +160,32 @@
                 <div class="card-body">
                     <h5 class="card-title">Select what you want to do</h5>
                         <p class="card-text">
-                       
-                        <form action="/payment/transactions_B" method="POST">
-        
-                
-                
 
+                          
+
+                        <form action="/payment/transactions_B" method="POST">
+                            
                             <div class="buy"><label> Enter the Bitcoin amount you want to Buy.   </label>
                             <input type="number" class="form-control" id="Buy" name="Buy">
-                            <button type="button" class="btn btn-primary" onclick="getConfirmation_B(Buy)">Add Dollars</button></div>
+                            <button type="button" class="btn btn-primary" onclick="getConfirmation_B(Buy)">Buy Bitcoins</button></div>
                 
                 
                             <div class="submission_B">
                             <button type="submit" class="btn btn-primary" >Confirm</button>
                             </div>
+                            <div align="center" id="bit00_3">
+                            <label class="switch">
+                            <input type="checkbox" id="checkbox1" name="checkbox1">
+
+                            <div class="slider round" >
+                              <span class="on">DOLLARS</span>
+                              <span class="off">BITCOINS</span>
+                            </div>
+                            
+                            </label>
+                          
+                          </div>
+
 
                         </form>
                         <form action="/payment/transactions_S" method="POST">
@@ -104,15 +195,28 @@
 
                             <div class="sell"><label> Enter the Bitcoin amount you want to Sell.   </label>
                             <input type="number" class="form-control" id="Sell" name="Sell">
-                            <button type="button" class="btn btn-primary" onclick="getConfirmation_S(Sell)">Add Dollars</button></div>
+                            <button type="button" class="btn btn-primary" onclick="getConfirmation_S(Sell)">Sell Bitcoins</button></div>
                 
                 
                             <div class="submission_S">
                             <button type="submit" class="btn btn-primary" >Confirm</button>
                             </div>
 
-                        </form>
+                            <div align="center" id="bit00_3">
+                            <label class="switch">
+                            <input type="checkbox" id="checkbox2" name="checkbox2">
 
+                            <div class="slider round">
+                              <span class="on">DOLLARS</span>
+                              <span class="off">BITCOINS</span>
+                            </div>
+                            
+                            </label>
+                          
+                          </div>
+
+                        </form>
+                    
 
                         </p>
                         {{#if message }}
@@ -126,19 +230,25 @@
             </div>
             
     </div>
+
     <div id="chartContainer" style="height: 300px; width: 100%;">
   </div>
 
 
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
   <script>$(document).ready(function() {
-       //$(".submission_B").hide();
+       $(".submission_B").hide();
+       $(".submission_S").hide();
+
+       //console.log(document.getElementById(com).value);
    
     });
     function getConfirmation_B(type){
         if (type ="Buy"){
           console.log("Buy");
             var r = confirm("You are buying" + document.getElementById(type).value + " bitcoins" );
+            
+            
             if (r == true)
             {
               $(".submission_B").show();
@@ -147,13 +257,30 @@
         
     };
 
+     var value1 = 1;
+  //you can put the checkbox in a variable, 
+  //this way you do not need to do a javascript query every time you access the value of the checkbox
+	var checkbox1 = document.getElementById("checkbox1")
+	checkbox1.checked = value1
+	document.getElementById("checkbox1").addEventListener("change", function(element){
+		console.log(checkbox1.checked)
+
+	});
+var value2 =1;
+  	var checkbox2 = document.getElementById("checkbox2")
+	checkbox2.checked = value2
+	document.getElementById("checkbox2").addEventListener("change", function(element){
+		console.log(checkbox2.checked)
+
+	});
+
 function getConfirmation_S(type){
         if (type ="Sell"){
           console.log("Sell");
             var r = confirm("You are selling" + document.getElementById(type).value + " bitcoins" );
             if (r == true)
             {
-              $(".submission_B").show();
+              $(".submission_S").show();
             }
         }
         

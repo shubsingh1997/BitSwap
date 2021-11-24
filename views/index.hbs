@@ -28,10 +28,34 @@
       <p class="lead">Hey {{user.First_Name}}, Welcome back </p>
       <hr class="my-4">
       <p>Let's trade some bitcoins...</p>
-      <a class="btn btn-primary btn-lg" href="#" role="button">Buy Bitcoin</a>
+      <a class="btn btn-primary btn-lg" href="/payment" role="button">Buy Bitcoin</a>
+      
+      <p class="live_prices">{{price.BTC}}</p>
+      <!--<p class="live_prices">{{price.ETH}}</p>-->
+      
     </div>
   </div>
 
   <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script>
+    
+      
+
+    $( document ).ready(function() {
+      $.get('/index/live_price');
+      
+      
+      //console.log( "ready!" );
+      //setInterval(function(){ 
+        
+        //$.get('/index/live_price');
+        
+       //  }, 500);
+      
+});
+      
+
+  </script>
 </body>
 </html>
