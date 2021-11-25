@@ -472,7 +472,7 @@ exports.transactions = async (req, res, next) => {
         db.query('SELECT * FROM ((user INNER JOIN client ON user.User_ID = client.User_ID) INNER JOIN wallet ON wallet.Client_ID = client.Client_ID) WHERE user.User_ID = ?', [req.body.userID], (error, result) => {
             // console
             var client = result[0]
-            db.query('SELECT * FROM transaction natural join client natural join user where client.Client_ID=? and Transaction_type="Buy" and Trader_ID=? and Transaction_ID not in (SELECT Transaction_ID FROM transaction natural join client natural join user where client.Client_ID=? and Trader_ID=? and status = "cancelled")', [client.Client_ID, "T_"+decoded.id, client.Client_ID, "T_"+decoded.id], (error, result) => {
+            db.query('SELECT * FROM transaction natural join client natural join user where client.Client_ID=? and Date(Date_Time) between date_sub(now(),INTERVAL 1 WEEK) and now() and Transaction_type="Buy" and Trader_ID=? and Transaction_ID not in (SELECT Transaction_ID FROM transaction natural join client natural join user where client.Client_ID=? and Trader_ID=? and status = "cancelled")', [client.Client_ID, "T_"+decoded.id, client.Client_ID, "T_"+decoded.id], (error, result) => {
                 console.log(result)
                 console.log(error)
                 res.status(200).render('transactions', {
@@ -528,7 +528,7 @@ exports.cancelTransaction = async (req, res, next) => {
                             console.log(error)
                             console.log(result)
                             var client = result[0]
-                            db.query('SELECT * FROM transaction natural join client natural join user where client.Client_ID=?  and Transaction_type="Buy" and Trader_ID=? and Transaction_ID not in (SELECT Transaction_ID FROM transaction natural join client natural join user where client.Client_ID=? and Trader_ID=? and status = "cancelled")', [client.Client_ID, "T_"+decoded.id, client.Client_ID, "T_"+decoded.id], (error, result) => {
+                            db.query('SELECT * FROM transaction natural join client natural join user where client.Client_ID=?  and Transaction_type="Buy" and Date(Date_Time) between date_sub(now(),INTERVAL 1 WEEK) and now() and Trader_ID=? and Transaction_ID not in (SELECT Transaction_ID FROM transaction natural join client natural join user where client.Client_ID=? and Trader_ID=? and status = "cancelled")', [client.Client_ID, "T_"+decoded.id, client.Client_ID, "T_"+decoded.id], (error, result) => {
                                 console.log(result)
                                 console.log(error)
                                 res.status(200).render('transactions', {
