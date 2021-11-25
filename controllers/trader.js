@@ -512,8 +512,15 @@ exports.cancelTransaction = async (req, res, next) => {
                 db.query('select * from wallet where Client_ID = ?', [trans.Client_ID], (error, result)=>{
                     console.log(result)
                     var damount = result[0].D_amount
-                    console.log(parseInt(damount)+parseInt(trans.Transaction_Amount) )
-                    db.query('update wallet set D_amount = ? where Client_ID = ?', [parseInt(damount)+parseInt(trans.Transaction_Amount), trans.Client_ID], (error, result)=>{
+                    if(trans.Commision_type == "Bitcoins"){
+                        var refund = parseInt(damount)+parseInt(trans.Transaction_Amount)
+                    }
+                    else{
+                        var refund = parseInt(damount)+parseInt(trans.Transaction_Amount)-parseInt(trans.Commision_Paid)
+                    }
+
+                    // console.log(parseInt(damount)+parseInt(trans.Transaction_Amount)-parseInt(trans.Commision_Paid) )
+                    db.query('update wallet set D_amount = ? where Client_ID = ?', [refund, trans.Client_ID], (error, result)=>{
                         console.log(result)
                         db.query('SELECT * FROM ((user INNER JOIN client ON user.User_ID = client.User_ID) INNER JOIN wallet ON wallet.Client_ID = client.Client_ID) WHERE client.Client_ID = ?', [req.body.Client_ID], (error, result) => {
                             // console
