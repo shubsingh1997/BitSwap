@@ -60,6 +60,7 @@
                         <p class="card-text">Current Bit Coins: {{searched_client.B_amount}} </p>
                         <p class="card-text">Current $ amount in wallet: {{searched_client.D_amount}} $</p>
                         <form action="/trader/client/transactions" method="POST">
+                            <input type="hidden" id="userID" name="userID" value="{{searched_client.User_ID}}">
                             <button type="submit" class="btn btn-primary">View Transactions</button>
                         </form>
                         <br>

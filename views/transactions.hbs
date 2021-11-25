@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="/style.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <nav>
+        <h4>BitSwap</h4>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/trader">Profile</a></li>
+            <li><a href="/auth/logout">Logout</a></li>
+        </ul>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-4">
+                <div class="card">
+                    <div class="avatar-ctn">
+                        <img src="/avatar.png" class="avatar" alt="user profile picture" />
+                    </div>
+                    <div class="card-body" style="background-color:{{user.Tier}};text-align: center ">
+                        <h5 class="card-title" align="text-center">{{user.First_Name}}</h5>
+                        <p class="card-text">Current Bit Coins: {{user.B_amount}} </p>
+                        <p class="card-text">Current $ amount in wallet: {{user.D_amount}} $</p>
+                        {{!-- <input type="button" style="background-color:{{user.Tier}};color:white;"
+                            value="{{user.Tier}} Customer"> --}}
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-8">
+                <div class="card text-center">
+                    {{#each Usertransactions}}
+                        <div class="card-header">
+                            <b>Date Time:</b> {{this.Date_Time}} <br>  <b>Transaction Type:</b> {{this.Transaction_type}} <br> <b>Transaction Amount:</b> {{this.Transaction_Amount}}
+                            <form action="/trader/client/CancelTransaction" method="Post">
+                                <input type="hidden" class="Transaction_Id" name="Transaction_Id" value="{{this.Transaction_ID}}">
+                                <input type="hidden" class="Client_ID" name="Client_ID" value="{{this.Client_ID}}">
+                                
+
+                                <button type="submit" class="btn btn-danger">Cancel Transaction</button>
+                            </form>
+                        </div>
+                        
+                    {{/each}}
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+            integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+            crossorigin="anonymous"></script>
+
+</body>
+
+</html>
