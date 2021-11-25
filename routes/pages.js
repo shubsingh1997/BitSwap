@@ -1,10 +1,12 @@
 const express = require('express');
 const authController = require('../controllers/auth');
 const transactionController = require('../controllers/transaction');
+const live_dataController = require('../controllers/live_price');
+
 const router = express.Router();
 const traderController = require('../controllers/trader')
 
-router.get('/', authController.isLoggedIn, (req, res) => {
+router.get('/', authController.isLoggedIn, (req, res) => { 
   res.render('index', {
     user: req.user
   });
@@ -63,8 +65,16 @@ router.get('/profile', authController.isLoggedIn, (req, res) => {
 
 router.post('/payment/transactions_B' , transactionController.transaction_B);
 
-router.post('/payment/transactions_S' , transactionController.transaction_S);
+router.post('/payment/transactions_S' , transactionController.transaction_S );
+
+router.get('/index/live_price' , live_dataController.livedata_print);
 
 router.get("/trader", traderController.traderprofile);
 router.post("/trader/client", traderController.findclient);
+
+router.post("/trader/client/trade", traderController.buysell);
+router.post('/trader/client/trade/Buy' , traderController.transaction_B);
+router.post('/trader/client/trade/Sell' , traderController.transaction_S);
+
+
 module.exports = router;

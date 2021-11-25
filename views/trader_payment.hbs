@@ -131,7 +131,7 @@
     <h4>BitSwap</h4>
     <ul>
       <li><a href="/">Home</a></li>
-      <li><a href="/profile">Profile</a></li>
+      <li><a href="/trader">Profile</a></li>
       <li><a href="/auth/logout">Logout</a></li>
     </ul>
   </nav>
@@ -163,8 +163,8 @@
 
                           
 
-                        <form action="/payment/transactions_B" method="POST">
-                            
+                        <form action="/trader/client/trade/Buy" method="POST">
+                            <input type="hidden" id="userId" name="userID" value="{{user.User_ID}}">
                             <div class="buy"><label> Enter the Bitcoin amount you want to Buy.   </label>
                             <input type="number" class="form-control" id="Buy" name="Buy">
                             <button type="button" class="btn btn-primary" onclick="getConfirmation_B(Buy)">Buy Bitcoins</button></div>
@@ -188,11 +188,8 @@
 
 
                         </form>
-                        <form action="/payment/transactions_S" method="POST">
-        
-                
-                
-
+                        <form action="/trader/client/trade/Sell" method="POST">
+                            <input type="hidden" id="userId" name="userID" value="{{user.User_ID}}">
                             <div class="sell"><label> Enter the Bitcoin amount you want to Sell.   </label>
                             <input type="number" class="form-control" id="Sell" name="Sell">
                             <button type="button" class="btn btn-primary" onclick="getConfirmation_S(Sell)">Sell Bitcoins</button></div>
