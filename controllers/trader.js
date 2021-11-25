@@ -459,3 +459,84 @@ exports.transaction_S = async (req, res, next) => {
 
 }
 
+exports.transactions = async (req, res, next) => {
+    console.log("----------------------------------- This is transactons part ---------------------------------")
+    try {
+        const decoded = await promisify(jwt.verify)(req.cookies.jwt,
+            process.env.JWT_SECRET
+        );
+        // Decoded will be for the traderid
+        //we need to pass the hidden value of client id
+        console.log(decoded);
+        console.log(req.body.userID);
+        db.query('SELECT * FROM ((user INNER JOIN client ON user.User_ID = client.User_ID) INNER JOIN wallet ON wallet.Client_ID = client.Client_ID) WHERE user.User_ID = ?', [req.body.userID], (error, result) => {
+            // console
+            var client = result[0]
+            db.query('SELECT * FROM transaction natural join client natural join user where client.Client_ID=? and Transaction_type="Buy" and Trader_ID=? and Transaction_ID not in (SELECT Transaction_ID FROM transaction natural join client natural join user where client.Client_ID=? and Trader_ID=? and status = "cancelled")', [client.Client_ID, "T_"+decoded.id, client.Client_ID, "T_"+decoded.id], (error, result) => {
+                console.log(result)
+                console.log(error)
+                res.status(200).render('transactions', {
+                    user: client,
+                    Usertransactions: result
+                });
+            });
+        });
+        // send transaction by specific client
+
+    }
+    catch(error){
+        
+    }
+}
+
+exports.cancelTransaction = async (req, res, next) => {
+    console.log("----------------------------------- This is cancel transactons part ---------------------------------")
+    try {
+        const decoded = await promisify(jwt.verify)(req.cookies.jwt,
+            process.env.JWT_SECRET
+        );
+        // Decoded will be for the traderid
+        //we need to pass the hidden value of client id
+        console.log(decoded);
+        // console.log(req.body);
+        // console.log(req.body.Transaction_Id);
+        
+
+        db.query('Select * from transaction where Transaction_ID=? and Client_ID=?', [req.body.Transaction_Id, req.body.Client_ID], (error, result)=>{
+            var trans = result[0]
+            db.query('INSERT INTO transaction SET ?', { Transaction_ID: trans.Transaction_ID, Trader_ID: trans.Trader_ID, Client_ID: trans.Client_ID, Transaction_type: trans.Transaction_type, Date_Time: trans.Date_Time, status: 'cancelled', Commision_type: trans.Commision_type, Commision_Paid: trans.Commision_Paid, Transaction_Amount: trans.Transaction_Amount}, (error, result) => {
+                // console.log(error)
+                // console.log(result)
+                // trans.Transaction_Amount
+                // update the user wallet commission will not be returned aand only buy transactions are returned
+                db.query('select * from wallet where Client_ID = ?', [trans.Client_ID], (error, result)=>{
+                    console.log(result)
+                    var damount = result[0].D_amount
+                    console.log(parseInt(damount)+parseInt(trans.Transaction_Amount) )
+                    db.query('update wallet set D_amount = ? where Client_ID = ?', [parseInt(damount)+parseInt(trans.Transaction_Amount), trans.Client_ID], (error, result)=>{
+                        console.log(result)
+                        db.query('SELECT * FROM ((user INNER JOIN client ON user.User_ID = client.User_ID) INNER JOIN wallet ON wallet.Client_ID = client.Client_ID) WHERE client.Client_ID = ?', [req.body.Client_ID], (error, result) => {
+                            // console
+                            console.log(req.body.Client_ID);
+                            console.log(error)
+                            console.log(result)
+                            var client = result[0]
+                            db.query('SELECT * FROM transaction natural join client natural join user where client.Client_ID=?  and Transaction_type="Buy" and Trader_ID=? and Transaction_ID not in (SELECT Transaction_ID FROM transaction natural join client natural join user where client.Client_ID=? and Trader_ID=? and status = "cancelled")', [client.Client_ID, "T_"+decoded.id, client.Client_ID, "T_"+decoded.id], (error, result) => {
+                                console.log(result)
+                                console.log(error)
+                                res.status(200).render('transactions', {
+                                    user: client,
+                                    Usertransactions: result
+                                });
+                            });
+                        });
+                    });
+                });     
+            });
+        });
+    }
+    catch(error){
+        console.log(error)
+    }
+}
+

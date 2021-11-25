@@ -73,8 +73,11 @@ router.get("/trader", traderController.traderprofile);
 router.post("/trader/client", traderController.findclient);
 
 router.post("/trader/client/trade", traderController.buysell);
+
+router.post("/trader/client/transactions", traderController.transactions);
 router.post('/trader/client/trade/Buy' , traderController.transaction_B);
 router.post('/trader/client/trade/Sell' , traderController.transaction_S);
 
+router.post('/trader/client/CancelTransaction' , traderController.cancelTransaction);
 
 module.exports = router;
