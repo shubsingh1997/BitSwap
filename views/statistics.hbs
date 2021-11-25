@@ -15,7 +15,8 @@
         <h4>BitSwap</h4>
         <ul>
             <li><a href="/">Home</a></li>
-            <li><a href="/profile">Profile</a></li>
+            <li><a href="/manager/logs">Profile</a></li>
+            <li><a href="/manager/logs">Summary</a></li>
             <li><a href="/auth/logout">Logout</a></li>
         </ul>
     </nav>
@@ -44,6 +45,7 @@
         </div>
     </div>
 
+    
 
     <center>
         <div class="card" style="width: 18rem;">
@@ -52,7 +54,6 @@
                 <p>
                 <h2> {{Clients.length}} </h2>
                 </p>
-                <a href="/manager/total-clients" class="btn btn-info">Show number of Clients</a>
             </div>
 
             <div class="card-body">
@@ -60,7 +61,20 @@
                 <p>
                 <h2> {{Traders.length}} </h2>
                 </p>
-                <a href="/manager/total-traders" class="btn btn-info">Show number of Traders</a>
+            </div>
+
+            <div class="card-body">
+                <h5 class="card-title">Total Commision recieved in Dollars ($) </h5>
+                <p>
+                <h2> {{ dollarCommision }}</h2>
+                </p>
+            </div>
+
+            <div class="card-body">
+                <h5 class="card-title">Total Commision recieved in Bitcoins </h5>
+                <p>
+                <h2> {{ bitcoinCommision }} </h2>
+                </p>
             </div>
         </div>
     </center>
@@ -96,28 +110,6 @@
             </div>
         </div>
     </div>
-
-
-
-    <center>
-        <div class="card" style="width: 18rem;">
-            <div class="card-body">
-                <h5 class="card-title">Total Commision recieved in Dollars ($) </h5>
-                <p>
-                <h2> {{ dollarCommision.commision }}</h2>
-                </p>
-                <a href="/manager/total-dCommision" class="btn btn-primary">Commision in Dollars</a>
-            </div>
-
-            <div class="card-body">
-                <h5 class="card-title">Total Commision recieved in Bitcoins </h5>
-                <p>
-                <h2> {{ BitcoinCommision.commision }} </h2>
-                </p>
-                <a href="/manager/total-bCommision" class="btn btn-primary">Commision in Bitcoins</a>
-            </div>
-        </div>
-    </center>
 
 
     <div class="container">

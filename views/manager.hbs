@@ -30,12 +30,6 @@
             <thead>
                 <tr style="color: blue;">
                     <th scope="col">
-                        <center>Client_ID</center>
-                    </th>
-                    <th scope="col">
-                        <center>Trader_ID</center>
-                    </th>
-                    <th scope="col">
                         <center>Transaction_ID</center>
                     </th>
                     <th scope="col">
@@ -57,8 +51,6 @@
             <tbody>
                 {{#each data }}
                 <tr>
-                    <td>{{this.Client_ID}}</td>
-                    <td>{{this.Trader_ID}}</td>
                     <td>{{this.Transaction_ID}}</td>
                     <td>
                         <center>{{this.Transaction_type}}</center>
@@ -80,10 +72,9 @@
         </table>
     </div>
 
-
     <center><a href="/manager/logs" class="btn btn-primary btn-sm">
             Back to Logs
-            </a>
+        </a>
     </center>
 
 
