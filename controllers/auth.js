@@ -468,10 +468,9 @@ exports.walletTransaction_negative = async (req, res) => {
   }
 };
 
-exports.walletTransaction_show = async (req, res, next) => {
-  console.log(
-    "----------------------------------- This is negative part ---------------------------------"
-  );
+
+exports.walletTransaction_show = async (req,res,next) => {
+  console.log("----------------------------------- This is show transaction part ---------------------------------")
   try {
     const decoded = await promisify(jwt.verify)(
       req.cookies.jwt,
@@ -480,24 +479,18 @@ exports.walletTransaction_show = async (req, res, next) => {
 
     console.log(decoded);
 
-    console.log("amount to be added");
-    console.log(req.body.D_amount);
-    if (req.body.D_amount == 0) {
-      console.log(
-        "----------------------------------- This is negative part ---------------------------------"
-      );
-      return res.status(400).render("wallet", {
-        message: "Enter Amount greater than zero",
-      });
-    } else {
-      db.query(
-        "SELECT * FROM ((user INNER JOIN client ON user.User_ID = client.User_ID) INNER JOIN wallet ON wallet.Client_ID = client.Client_ID) WHERE user.User_ID = ?",
-        [decoded.id],
-        (error, result) => {
-          console.log(
-            "This is working -------------------------------------------------------------"
-          );
-          if (error) {
+      console.log("amount to be added")
+      console.log(req.body.D_amount);
+      if(  req.body.D_amount == 0) {
+        console.log("----------------------------------- This is show transaction part ---------------------------------")
+        return res.status(400).render('wallet', {
+          message: 'Enter Amount greater than zero'
+        })
+      }
+      else {
+        db.query('SELECT * FROM ((user INNER JOIN client ON user.User_ID = client.User_ID) INNER JOIN wallet ON wallet.Client_ID = client.Client_ID) WHERE user.User_ID = ?', [decoded.id], (error, result) => {
+          console.log("This is working -------------------------------------------------------------");
+          if (error){
             throw error;
           }
           console.log(
@@ -506,26 +499,34 @@ exports.walletTransaction_show = async (req, res, next) => {
           console.log(result);
 
           var client_id = "C_" + result[0].User_ID;
-          db.query(
-            "SELECT Date_Time,Wallet_Transaction_Amount FROM wallet_transaction where Client_ID = ?",
-            [client_id],
-            (error, result) => {
-              console.log(result);
-              if (!result) {
-                return next();
-              }
-              return render("/wallet", {
-                title: "Transaction of dollars in wallet",
-                data: result[0],
-              });
+          db.query('SELECT Date_Time,Wallet_Transaction_Amount FROM wallet_transaction where Client_ID = ?', [client_id],(error,result) =>{
+            console.log(result);
+            if (!result)
+            {
+              return next();
             }
-          );
-        }
-      );
+            console.log(result[0] + "<--------------------------------- INSIDE SHOW transaction ")
+            return res.status(200).render('wallet',
+            {
+              title: 'Transaction of dollars in wallet',
+              data: result[0]
+            }          
+            );
 
-      res.status(200).redirect("/profile");
-    }
-  } catch (error) {
+            
+          });
+          
+    
+        });
+        
+        //res.status(200).redirect('/profile');
+      }
+      
+      
+    
+  }
+  catch (error)
+  {
     console.log(error);
     next();
   }
