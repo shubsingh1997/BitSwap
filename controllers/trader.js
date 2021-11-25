@@ -181,10 +181,12 @@ exports.transaction_B = async (req, res, next) => {
         console.log(req.body.checkbox1);
         //if the above value is on than it is dollars otherwise (undefined) it is bitcoins 
         if (req.body.Buy <= 0 || req.body.Buy == "") {
-
-            return res.status(400).render('trader_payment', {
-                message: 'Invalid Amount to be removed'
-                // IG we also need to send the user
+            db.query('SELECT * FROM ((user INNER JOIN client ON user.User_ID = client.User_ID) INNER JOIN wallet ON wallet.Client_ID = client.Client_ID) WHERE user.User_ID = ?', [req.body.userID], (error, result) => {
+                // console
+                return res.status(400).render('trader_payment', {
+                    message: 'Invalid Amount to be removed',
+                    user: result[0]
+                });
             });
         }
         else {
@@ -195,7 +197,7 @@ exports.transaction_B = async (req, res, next) => {
                 }
                 console.log(result);
 
-                // var client = result[0];
+                var client = result[0];
                 var uid = result[0].User_ID;
                 var client_id = "C_" + result[0].User_ID;
                 var d_amount = result[0].D_amount;
@@ -226,8 +228,11 @@ exports.transaction_B = async (req, res, next) => {
                         console.log(commission_amt + "-" + bitcoin_bought_amt + "" + total_bought_amt_dollar);
                         console.log(typeof (commission_amt));
                         if (total_bought_amt_dollar >= d_amount) {
-                            return res.status(400).render('', {
-                                message: ' Insufficient amount'
+                            db.query('SELECT * FROM ((user INNER JOIN client ON user.User_ID = client.User_ID) INNER JOIN wallet ON wallet.Client_ID = client.Client_ID) WHERE user.User_ID = ?', [uid], (error, result) => {
+                                return res.status(400).render('trader_payment', {
+                                    message: 'Insufficient amount',
+                                    user: result[0]
+                                });
                             });
                         }
                         else {
@@ -255,9 +260,13 @@ exports.transaction_B = async (req, res, next) => {
                         var bitcoin_bought_amt_bitcoin = req.body.Buy * bitcoin_rate; //total dollar paid by client for the purchse of butcoin 
                         var total_bought_amt_bitcoin = req.body.Buy - commission_amt_bitcoin; // the number of bitcoin the buyer gain after subtracting the commission
                         if (bitcoin_bought_amt_bitcoin >= d_amount) {
-                            return res.status(400).render('payment', {
-                                message: ' Insufficient amount'
+                            db.query('SELECT * FROM ((user INNER JOIN client ON user.User_ID = client.User_ID) INNER JOIN wallet ON wallet.Client_ID = client.Client_ID) WHERE user.User_ID = ?', [uid], (error, result) => {
+                                return res.status(400).render('trader_payment', {
+                                    message: 'Insufficient amount',
+                                    user: result[0]
+                                });
                             });
+                            
                         }
                         else {
                             var new_Damount = parseFloat(d_amount) - parseFloat(bitcoin_bought_amt_bitcoin);
@@ -320,8 +329,12 @@ exports.transaction_S = async (req, res, next) => {
         //if the above value is on than it is dollars otherwise (undefined) it is bitcoins 
         if (req.body.Sell <= 0 || req.body.Sell == "") {
 
-            return res.status(400).render('payment', {
-                message: 'Invalid Amount to be removed'
+            db.query('SELECT * FROM ((user INNER JOIN client ON user.User_ID = client.User_ID) INNER JOIN wallet ON wallet.Client_ID = client.Client_ID) WHERE user.User_ID = ?', [req.body.userID], (error, result) => {
+                // console
+                return res.status(400).render('trader_payment', {
+                    message: 'Invalid Amount to be removed',
+                    user: result[0]
+                });
             });
         }
         else {
@@ -340,7 +353,7 @@ exports.transaction_S = async (req, res, next) => {
 
 
                 if (req.body.Sell > b_amount) {
-                    return res.status(400).render('payment', {
+                    return res.status(400).render('trader_payment', {
                         message: "you don't have enough Bitcoins",
                         user: result[0]
 
@@ -404,7 +417,7 @@ exports.transaction_S = async (req, res, next) => {
 
                         if (bitcoin_sold_amt > b_amount) {
                             console.log(bitcoin_sold_amt + '(' + req.body.Sell + "+" + commission_amt_bitcoin + ')' + '>' + b_amount);
-                            return res.status(400).render('payment', {
+                            return res.status(400).render('trader_payment', {
 
                                 message: "you don't have enough Bitcoins",
                                 user: result[0]
