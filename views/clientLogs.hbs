@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="/style.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <nav>
+        <h4>BitSwap</h4>
+        <ul>
+            <li><a href="/manager/logs">Home</a></li>
+            <li><a href="/manager/logs">Profile</a></li>
+            <li><a href="/manager/logs">Summary</a></li>            
+            <li><a href="/auth/logout">Logout</a></li>
+        </ul>
+    </nav>
+
+
+    <center>
+        <h2 style="color: brown;"> {{ title }}</h2>
+    </center>
+    <div class="table-data">
+        <table class="table table-bordered">
+            <thead>
+                <tr style="color: blue;">
+                    <th scope="col">
+                        <center>Client_ID</center>
+                    </th>
+                    <th scope="col">
+                        <center>Transaction_ID</center>
+                    </th>
+                    <th scope="col">
+                        <center>Transaction_Type</center>
+                    </th>
+                    <th scope="col">
+                        <center>Date_Time</center>
+                    </th>
+                    <th scope="col">status</th>
+                    <th scope="col">Commision_type</th>
+                    <th scope="col">
+                        <center>Commision_Paid</center>
+                    </th>
+                    <th scope="col">
+                        <center>Transaction_Amount</center>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each data }}
+                <tr>
+                    <td>{{this.Client_ID}}</td>
+                    <td>{{this.Transaction_ID}}</td>
+                    <td>
+                        <center>{{this.Transaction_type}}</center>
+                    </td>
+                    <td>{{this.Date_Time }}</td>
+                    <td>{{this.status }}</td>
+                    <td>
+                        <center>{{this.Commision_type}}</center>
+                    </td>
+                    <td>
+                        <center>{{this.Commision_Paid}}</center>
+                    </td>
+                    <td>
+                        <center>{{this.Transaction_Amount}}</center>
+                    </td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+
+    <center><a href="/manager/logs" class="btn btn-primary btn-sm">
+            Back to Logs
+        </a>
+    </center>
+
+
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

@@ -1,5 +1,7 @@
 const express = require('express');
+//const { cond } = require('lodash');
 const authController = require('../controllers/auth');
+const managerController = require('../controllers/managerController');
 const transactionController = require('../controllers/transaction');
 
 const CoinGecko = require('coingecko-api');
@@ -71,6 +73,10 @@ router.get('/profile', authController.isLoggedIn, (req, res) => {
   
 })
 
+router.get('/manager', (req,res) => {        
+  console.log(req);
+  res.render('manager');
+})
 
 router.post('/payment/transactions_B' , transactionController.transaction_B);
 
