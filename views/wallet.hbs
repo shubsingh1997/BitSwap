@@ -1,13 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
+  <title>Document</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
   <link rel="stylesheet" href="/style.css">
+  
   <title>Document</title>
 </head>
-<body>
+<body> 
       <nav>
     <h4>BitSwap</h4>
     <ul>
@@ -79,11 +84,12 @@
                 </form>
               </div>  
               <div class="show_tranasaction">
-                <table class="table">
+                <table id="table"  class="table table-striped">
                   <thead>
                     <tr>
                       <th>
                         Date_Time
+                        {{title}}
                       </th>
                       <th>
                         Wallet_Transaction_Amount
@@ -91,16 +97,17 @@
                     </tr>
                   </thead>
                   <tbody>
-                    {{#each data}}
+                    
+                    
                     <tr>
-                      <td>
-                        {{this.Date_Time}}
+                      <td id="wallet_transaction_date">
+                        
                       </td>
-                      <td>
-                        {{this.Wallet_Transaction_Amount}}
+                      <td id="wallet_transaction_amunt">
+                        
                       </td>
                     </tr>
-                    {{/each}}
+                   
                   </tbody>
                 </table>
 
@@ -113,11 +120,7 @@
           </div>
           <div class="card-footer text-muted">
             BitSwap
-            <div class="show">
-              {{transactions}}
-
-            </div>
-
+            
 
 
           </div>
@@ -125,9 +128,8 @@
       </div>
     </div>
 
-  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
   <script>$(document).ready(function() {
-    
+    console.log("ready");
     $(".submission_P").hide();
     $(".submission_N").hide();
     $(".positive").hide();
@@ -159,17 +161,6 @@
         
     };
 
-    function getResults(elem) {
-
-        if (elem.checked == true)
-        {
-            if (elem.value == "Dollar")
-            {
-                //console.log(elem.value)
-                $(".dollars").show();       
-            }
-        }
-    };
 
     function getResults(elem) {
       if (elem.checked == true)
@@ -177,19 +168,47 @@
         if (elem.value == "positive")
         {
           $(".positive").show() 
+          $(".negative").hide();
+          $(".show_tranasaction").hide();
         }
         if (elem.value == "negative")
         {
           $(".negative").show() 
+          $(".positive").hide();
+          
+          $(".show_tranasaction").hide();
         }
         if (elem.value == "show_tranasaction")
         {
-          $(".show_tranasaction").show()
-          router.set('/wallet/show_transaction');
+          $(".show_tranasaction").show();
+          $(".positive").hide();
+          $(".negative").hide();
+          $.ajax({
+            url: "http://localhost:5001/wallet/show_transaction",
+            type: 'GET',
+            success: function(res) {
+              console.log(res);
+              var table = document.getElementById("table");
+              var row = table.insertRow(1);
+              console.log(Object.values(res)[0].Wallet_Transaction_Amount)
+              for (let i = 1; i < Object.keys(res).length; i++)
+              { 
+                var row = table.insertRow(i);
+                var cell1 = row.insertCell(0);
+                var cell2 = row.insertCell(1);
+                cell1.innerHTML = Object.values(res)[i].Date_Time.replace('T', ' ').slice(0,19);
+                cell2.innerHTML = Object.values(res)[i].Wallet_Transaction_Amount + "$ ";
+              }
+              //for(Object.keys(myChart.data.datasets[0].data).length)
+            //alert(res);
+        }
+        });
         }
       }
     
     };
-  </script>
+    
+   </script>
+   
 </body>
 </html>

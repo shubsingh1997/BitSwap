@@ -5,9 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
   <link rel="stylesheet" href="/style.css">
+  
+  
   <title>Document</title>
 </head>
 <body>
+  
   <nav>
     <h4>BitSwap</h4>
     <ul>
@@ -30,8 +33,18 @@
       <p>Let's trade some bitcoins...</p>
       <a class="btn btn-primary btn-lg" href="/payment" role="button">Buy Bitcoin</a>
       
-      <p class="live_prices">{{price.BTC}}</p>
-      <!--<p class="live_prices">{{price.ETH}}</p>-->
+      <p class="live_prices"></p>
+      <div>Live BITCOIN PRICe : {{BIT}}</div>
+          <div class="embed-responsive embed-responsive-21by9">
+   
+            <iframe src="/live_bitcoin_chart" width="1000px" height="600px" scrolling="no" title="Iframe Example"  ></iframe>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+
+            </div>
       
     </div>
   </div>
@@ -43,7 +56,7 @@
       
 
     $( document ).ready(function() {
-      $.get('/index/live_price');
+      //$.get('/index/live_price');
       
       
       //console.log( "ready!" );
@@ -57,5 +70,6 @@
       
 
   </script>
+  
 </body>
 </html>

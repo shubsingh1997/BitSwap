@@ -2,6 +2,7 @@ const mysql = require("mysql");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const { promisify } = require("util");
+const env = require('process')
 
 const db = mysql.createConnection({
     host: process.env.DATABASE_HOST,
@@ -204,7 +205,7 @@ exports.transaction_B = async (req, res, next) => {
                 var b_amount = result[0].B_amount;
 
 
-                var bitcoin_rate = 100;
+                var bitcoin_rate = env.BITCOIN;
                 var commission_rate = 0;
                 db.query('SELECT Tier FROM client where Client_ID=? ', [client_id], (error, result) => {
                     //console.log(result[0] );
@@ -361,7 +362,7 @@ exports.transaction_S = async (req, res, next) => {
                 }
 
 
-                var bitcoin_rate = 100;
+                var bitcoin_rate = env.BITCOIN;
                 //get live bitcoin rate above
                 var commission_rate = 0;
                 db.query('SELECT Tier FROM client where Client_ID=? ', [client_id], (error, result) => {

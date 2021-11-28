@@ -84,9 +84,24 @@ exports.login = async (req, res) => {
 exports.register = (req, res) => {
   console.log(req.body);
 
-  const { firstname, lastname, ssn, street, city, zip, state, phone, cellphone, email, password, passwordConfirm, radio1 } = req.body;
-  let user_id
-  db.query('SELECT max(User_ID)as max FROM user', (error, result) => {
+  const {
+    firstname,
+    lastname,
+    ssn,
+    street,
+    city,
+    zip,
+    state,
+    phone,
+    cellphone,
+    email,
+    password,
+    passwordConfirm,
+    radio1,
+    checkbox1
+  } = req.body;
+  let user_id;
+  db.query("SELECT max(User_ID)as max FROM user", (error, result) => {
     console.log(result);
 
     if (result != null) {
@@ -116,26 +131,147 @@ exports.register = (req, res) => {
       if (error) {
         console.log(error);
       }
-    })
-    console.log("Value of Radio Button: " + radio1);
-    if (radio1 == "Client") {
-      db.query('INSERT INTO address SET ?', { User_ID: user_id, Street_Address: street, city: city, zip: zip, state: state }, (error, results) => {
-        if (error) {
-          console.log(error);
-        } else {
-          console.log(results);
+      //console.log("wbiwbciqb");
+      console.log(results);
 
+      if (results.length > 0) {
+          return res.render("register", {
+            message: "That email is already in use",
+          });
         }
-      })
-      let client_id = "C_".concat("", user_id);
-      db.query('INSERT INTO client SET ?', { User_ID: user_id, Client_ID: client_id, tier: "Silver" }, (error, results) => {
-        if (error) {
-          console.log(error);
-        } else {
-          console.log(results);
+        
+       else if (password !== passwordConfirm) {
+        return res.render("register", {
+          message: "Passwords do not match",
+        });
+      }
 
+      let hashedPassword = await bcrypt.hash(password, 8);
+      console.log(hashedPassword);
+
+      
+      db.query( "INSERT INTO user SET ?", {
+          User_ID: user_id,
+          SSN: ssn,
+          First_Name: firstname,
+          Last_Name: lastname,
+          Phone_number: phone,
+          Cellphone_Number: cellphone,
+          email: email,
+          password: hashedPassword,
+      },
+        (error, results) => {
+          if (error) {
+            console.log(error);
+            return res.render("register", {
+              message: "User with SSN is already there",
+            });
+          } else {
+            console.log(results);
+            return res.render("register", {
+              message: "User registered",
+            });
+          }
         }
-      })
+      );
+      console.log("value " + radio1);
+      if (radio1 == "Client") {
+        db.query(
+          "INSERT INTO address SET ?",
+          {
+            User_ID: user_id,
+            Street_Address: street,
+            city: city,
+            zip: zip,
+            state: state,
+          },
+          (error, results) => {
+            if (error) {
+              console.log(error);
+            } else {
+              console.log(results);
+            }
+          }
+        );
+        let client_id = "C_".concat("", user_id);
+       
+        if (checkbox1 == "on"){
+
+          db.query("select Trader_ID from trader ORDER BY RAND() LIMIT 1", (error,results) =>{
+            db.query(
+              "INSERT INTO client SET ?",
+              { User_ID: user_id, Client_ID: client_id, tier: "Silver", Trader_ID : results[0].Trader_ID } ,
+              (error, results) => {
+                if (error) {
+                  console.log(error);
+                } else {
+                  console.log(results);
+                }
+              }
+            );
+          
+          });
+        } else{
+          db.query(
+            "INSERT INTO client SET ?",
+            { User_ID: user_id, Client_ID: client_id, tier: "Silver",} ,
+            (error, results) => {
+              if (error) {
+                console.log(error);
+              } else {
+                console.log(results);
+              }
+            }
+          );
+         
+        }
+        //console.log(x);
+          
+        
+        db.query(
+          "INSERT INTO wallet SET ?",
+          { Client_ID: client_id, D_amount: 0, B_amount: 0 },
+          (error, results) => {
+            if (error) {
+              console.log(error);
+            } else {
+              console.log(results);
+            }
+          }
+        );
+      } else if (radio1 == "Manager") {
+        let manager_id = "M_".concat("", user_id);
+        db.query(
+          "INSERT INTO manager SET ?",
+          { User_ID: user_id, Manager_ID: manager_id },
+          (error, results) => {
+            if (error) {
+              console.log(error);
+            } else {
+              console.log(results);
+            }
+          }
+        );
+      } else {
+        let trader_id = "T_".concat("", user_id);
+        db.query(
+          "INSERT INTO trader SET ?",
+          { User_ID: user_id, Trader_ID: trader_id },
+          (error, results) => {
+            if (error) {
+              console.log(error);
+            } else {
+              console.log(results);
+            }
+          }
+        );
+      }
+    }
+  );
+});
+
+        
+      
       db.query('INSERT INTO wallet SET ?', { Client_ID: client_id, D_amount: 0, B_amount: 0 }, (error, results) => {
         if (error) {
           console.log(error);
@@ -143,20 +279,9 @@ exports.register = (req, res) => {
           console.log(results);
 
         }
-      })
+      });
     }
-    else {
-      let trader_id = "T_".concat("", user_id);
-      db.query('INSERT INTO trader SET ?', { User_ID: user_id, Trader_ID: trader_id }, (error, results) => {
-        if (error) {
-          console.log(error);
-        } else {
-          console.log(results);
-        }
-      })
-    }
-  });
-}
+    
   exports.isLoggedIn = (req, res, next) => {
     // console.log(req.cookies);
 

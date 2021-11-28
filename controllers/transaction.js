@@ -2,7 +2,7 @@ const mysql = require("mysql");
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const { promisify } = require('util');
-
+const env = require('process')
 
 const db = mysql.createConnection({
   host: process.env.DATABASE_HOST,
@@ -53,7 +53,8 @@ exports.transaction_B = async  (req,res,next) => {
           var b_amount = result[0].B_amount;
          
           
-          var bitcoin_rate = 100;
+          var bitcoin_rate = env.BITCOIN;
+          console.log(">_______________________________________>" + bitcoin_rate + "<_________________________________________________________________________<");
           var commission_rate =0 ;
           db.query('SELECT Tier FROM client where Client_ID=? ' , [client_id] , (error,result) => {
             //console.log(result[0] );
@@ -190,7 +191,7 @@ exports.transaction_B = async  (req,res,next) => {
             }
             
             
-            var bitcoin_rate = 100;
+            var bitcoin_rate = env.BITCOIN;
             //get live bitcoin rate above
             var commission_rate =0 ;
             db.query('SELECT Tier FROM client where Client_ID=? ' , [client_id] , (error,result) => {
@@ -210,7 +211,7 @@ exports.transaction_B = async  (req,res,next) => {
 
 
             
-              if (req.body.checkbox2){
+              if (req.body.checkbox2 == 'on'){
 
               var bitcoin_sold_amt = req.body.Sell * bitcoin_rate;
               var commission_amt = bitcoin_sold_amt * commission_rate;
@@ -238,7 +239,7 @@ exports.transaction_B = async  (req,res,next) => {
 
               var commission_amt_bitcoin = req.body.Sell * commission_rate; // getting commsion for bitcoin 10*.1 = 0.1
               var bitcoin_sold_amt = parseFloat(req.body.Sell) + parseFloat(commission_amt_bitcoin); // getting the value of bitcoin that are going to be sold 10 + 0.1 = 1.1
-              var total_bitcoin_sold_amt_dollars = bitcoin_sold_amt * bitcoin_rate; // getting the value of amt that is to added to wallet 10 * 100 = 1000
+              var total_bitcoin_sold_amt_dollars = req.body.Sell * bitcoin_rate; // getting the value of amt that is to added to wallet 10 * 100 = 1000
               
               console.log("--------------------------------->>>>>>>>>>>>>>>>>>"+bitcoin_sold_amt+ '('+req.body.Sell+"+"+commission_amt_bitcoin +')' + '>' + b_amount);
               
@@ -272,7 +273,9 @@ exports.transaction_B = async  (req,res,next) => {
           
           //res.status(200).redirect('/profile');
         }  
-      
+        console.log("-------------------------------------------------------------------------------------------------------------------------------------------")
+        console.log(env.BITCOIN);
+        console.log("-------------------------------------------------------------------------------------------------------------------------------------------")
     }
     catch (error)
     {
