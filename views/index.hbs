@@ -10,6 +10,7 @@
   <title>Document</title>
 </head>
 <body>
+  
   <nav>
     <h4>BitSwap</h4>
     <ul>
@@ -32,8 +33,18 @@
       <p>Let's trade some bitcoins...</p>
       <a class="btn btn-primary btn-lg" href="/payment" role="button">Buy Bitcoin</a>
       
-      <p class="live_prices">{</p>
-      <!--<p class="live_prices">{{price.ETH}}</p>-->
+      <p class="live_prices"></p>
+      <div>Live BITCOIN PRICe : {{BIT}}</div>
+          <div class="embed-responsive embed-responsive-21by9">
+   
+            <iframe src="/live_bitcoin_chart" width="1000px" height="600px" scrolling="no" title="Iframe Example"  ></iframe>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+
+            </div>
       
     </div>
   </div>
@@ -45,7 +56,7 @@
       
 
     $( document ).ready(function() {
-      $.get('/index/live_price');
+      //$.get('/index/live_price');
       
       
       //console.log( "ready!" );
@@ -59,5 +70,6 @@
       
 
   </script>
+  
 </body>
 </html>

@@ -1,0 +1,91 @@
+<html>
+    <head>
+        <title>Chart</title>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        
+        </script>
+        
+    </head>
+    <body>
+        
+            
+  <canvas id="mycanvas" height="50%" width="100%"></canvas>
+
+        <script>
+
+var ctx_live = document.getElementById("mycanvas");
+var myChart = new Chart(ctx_live, {
+  type: 'line',
+  
+  data: {
+    labels: [],
+    borderColor: 'rgb(75, 192, 192)',
+    datasets: [{
+      data: [],
+      borderWidth: 1,
+      borderColor:'#00c0ef',
+      label: 'liveCount',
+    }]
+  },
+  options: {
+    autoPadding: true,
+    responsive: true,
+    title: {
+      display: true,
+      text: "LIVE BITCOIN PRICES",
+    },
+    legend: {
+      display: false
+    },
+    scales: {
+      yAxes: [{
+        
+        ticks: {
+          
+          beginAtZero: false,
+        }
+      }]
+    }
+  }
+});
+
+var postId = 1;
+
+var prev_res = 0
+var temp = 0 
+    //const env = require('process')
+    var getData = function() {
+      const d = new Date()
+      $.ajax({
+          url: "http://localhost:5001/live_price_1",
+          type: 'GET',
+          success: function(res) {
+          //console.log(Object.values(res));
+          myChart.data.labels =[]
+          myChart.data.datasets[0].data =[]
+          //console.log(myChart.data.labels)
+          //console.log(myChart.data.datasets[0].data)
+          
+          for(let i =0; i <10 ; i++)
+          {
+            
+            myChart.data.labels.push(Object.keys(res)[i]);
+            myChart.data.datasets[0].data.push(Object.values(res)[i]);
+          }
+        //alert(res);
+        console.log(myChart.data.labels);
+        console.log(myChart.data.datasets[0].data);
+    }
+});
+      postId = postId + 1; 
+      myChart.update();
+    };
+
+setInterval(getData, 5000);
+
+</script>
+
+    </body>
+</html>

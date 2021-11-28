@@ -90,41 +90,9 @@
 
 </style>
 
-  <script type="text/javascript">
-  window.onload = function () {
-    var chart = new CanvasJS.Chart("chartContainer",
-    {
-
-      title:{
-      text: "Bitcoin Price per 5 seconds"
-      },
-       data: [
-      {
-        type: "line",
-
-        dataPoints: [
-        { x: new Date(2012, 00, 1), y: 450 },
-        { x: new Date(2012, 01, 1), y: 414 },
-        { x: new Date(2012, 02, 1), y: 520 },
-        { x: new Date(2012, 03, 1), y: 460 },
-        { x: new Date(2012, 04, 1), y: 450 },
-        { x: new Date(2012, 05, 1), y: 500 },
-        { x: new Date(2012, 06, 1), y: 480 },
-        { x: new Date(2012, 07, 1), y: 480 },
-        { x: new Date(2012, 08, 1), y: 410 },
-        { x: new Date(2012, 09, 1), y: 500 },
-        { x: new Date(2012, 10, 1), y: 480 },
-        { x: new Date(2012, 11, 1), y: 510 }
-        ]
-      }
-      ]
-    });
-
-    chart.render();
-  }
-  </script>
+ 
+ 
  <script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
- <script src="/live_price.js"></script>
  </head>
 
 </head>
@@ -157,7 +125,7 @@
   <div class="col-8">
         <div class="card text-center">
           <div class="card-header">
-            Live Bitcoin Price : {{BITCOIN_PRICE.}}
+            Live Bitcoin Price : {{BIT}}
             </div>
                 <div class="card-body">
                     <h5 class="card-title">Select what you want to do</h5>
@@ -224,6 +192,7 @@
                         {{#if message }}
                             <h4 class="alert alert-danger mt-4">{{message}}</h4>
                         {{/if}}
+                        
                 </div>
                 <div class="card-footer text-muted">
                     BitSwap
@@ -233,9 +202,19 @@
             
     </div>
 
-    <div id="chartContainer" style="height: 300px; width: 100%;">
+   
   </div>
+  <div class="embed-responsive embed-responsive-21by9">
+   
+   <iframe src="/live_bitcoin_chart" width="1000px" height="600px" scrolling="no" title="Iframe Example"  ></iframe>
+   <br>
+   <br>
+   <br>
+   <br>
+   <br>
 
+   </div>
+<!-- <iframe src="demo_iframe.htm" height="200" width="300" title="Iframe Example"></iframe> -->
 
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
   <script>$(document).ready(function() {

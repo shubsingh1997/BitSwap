@@ -14,7 +14,7 @@ router.post('/wallet/positive', authController.walletTransaction_positive);
 
 router.post('/wallet/negative', authController.walletTransaction_negative);
 
-//router.get('/wallet/show_transaction' , authController.walletTransaction_show);
+
 
 
 

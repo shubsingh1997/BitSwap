@@ -75,6 +75,7 @@ exports.register = (req, res) => {
     password,
     passwordConfirm,
     radio1,
+    checkbox1
   } = req.body;
   let user_id;
   db.query("SELECT max(User_ID)as max FROM user", (error, result) => {
@@ -91,12 +92,16 @@ exports.register = (req, res) => {
       if (error) {
         console.log(error);
       }
+      //console.log("wbiwbciqb");
+      console.log(results);
 
       if (results.length > 0) {
-        return res.render("register", {
-          message: "That email is already in use",
-        });
-      } else if (password !== passwordConfirm) {
+          return res.render("register", {
+            message: "That email is already in use",
+          });
+        }
+        
+       else if (password !== passwordConfirm) {
         return res.render("register", {
           message: "Passwords do not match",
         });
@@ -105,9 +110,8 @@ exports.register = (req, res) => {
       let hashedPassword = await bcrypt.hash(password, 8);
       console.log(hashedPassword);
 
-      db.query(
-        "INSERT INTO user SET ?",
-        {
+      
+      db.query( "INSERT INTO user SET ?", {
           User_ID: user_id,
           SSN: ssn,
           First_Name: firstname,
@@ -116,10 +120,13 @@ exports.register = (req, res) => {
           Cellphone_Number: cellphone,
           email: email,
           password: hashedPassword,
-        },
+      },
         (error, results) => {
           if (error) {
             console.log(error);
+            return res.render("register", {
+              message: "User with SSN is already there",
+            });
           } else {
             console.log(results);
             return res.render("register", {
@@ -148,17 +155,40 @@ exports.register = (req, res) => {
           }
         );
         let client_id = "C_".concat("", user_id);
-        db.query(
-          "INSERT INTO client SET ?",
-          { User_ID: user_id, Client_ID: client_id, tier: "Silver" },
-          (error, results) => {
-            if (error) {
-              console.log(error);
-            } else {
-              console.log(results);
+       
+        if (checkbox1 == "on"){
+
+          db.query("select Trader_ID from trader ORDER BY RAND() LIMIT 1", (error,results) =>{
+            db.query(
+              "INSERT INTO client SET ?",
+              { User_ID: user_id, Client_ID: client_id, tier: "Silver", Trader_ID : results[0].Trader_ID } ,
+              (error, results) => {
+                if (error) {
+                  console.log(error);
+                } else {
+                  console.log(results);
+                }
+              }
+            );
+          
+          });
+        } else{
+          db.query(
+            "INSERT INTO client SET ?",
+            { User_ID: user_id, Client_ID: client_id, tier: "Silver",} ,
+            (error, results) => {
+              if (error) {
+                console.log(error);
+              } else {
+                console.log(results);
+              }
             }
-          }
-        );
+          );
+         
+        }
+        //console.log(x);
+          
+        
         db.query(
           "INSERT INTO wallet SET ?",
           { Client_ID: client_id, D_amount: 0, B_amount: 0 },
@@ -506,12 +536,7 @@ exports.walletTransaction_show = async (req,res,next) => {
               return next();
             }
             console.log(result[0] + "<--------------------------------- INSIDE SHOW transaction ")
-            return res.status(200).render('wallet',
-            {
-              title: 'Transaction of dollars in wallet',
-              data: result[0]
-            }          
-            );
+            return res.status(200).json(result) 
 
             
           });
