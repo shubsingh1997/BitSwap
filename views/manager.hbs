@@ -29,6 +29,12 @@
         <table class="table table-bordered">
             <thead>
                 <tr style="color: blue;">
+                     <th scope="col">
+                        <center>Client_ID</center>
+                    </th>
+                     <th scope="col">
+                        <center>Trader_ID</center>
+                    </th>
                     <th scope="col">
                         <center>Transaction_ID</center>
                     </th>
@@ -51,6 +57,12 @@
             <tbody>
                 {{#each data }}
                 <tr>
+                    <td>
+                        <center>{{this.Client_ID}}</center>
+                    </td>
+                    <td>
+                        <center>{{this.Trader_ID}}</center>
+                    </td>
                     <td>{{this.Transaction_ID}}</td>
                     <td>
                         <center>{{this.Transaction_type}}</center>

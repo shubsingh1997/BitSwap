@@ -66,7 +66,9 @@ exports.login = async (req, res) => {
                     res.status(200).redirect("/manager/logs");
                   }
                   else {
-                    res.status(200).redirect("/");
+                    res.status(401).render('login', {
+                      message: 'Error in login as Manager'
+                    })
                   }
                 })
               } else {
@@ -146,7 +148,7 @@ exports.register = (req, res) => {
         });
       }
 
-      let hashedPassword = await bcrypt.hash(password, 8);
+      let hashedPassword = async (req, res) =>  bcrypt.hash(password, 8);
       console.log(hashedPassword);
 
       
@@ -258,7 +260,7 @@ exports.register = (req, res) => {
           "INSERT INTO trader SET ?",
           { User_ID: user_id, Trader_ID: trader_id },
           (error, results) => {
-            if (error) {
+            if (error) {  
               console.log(error);
             } else {
               console.log(results);

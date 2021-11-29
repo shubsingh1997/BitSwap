@@ -20,11 +20,11 @@ router.get('/logs', function (req, res) {
   db.query(sql, function (err, results) {
     if (err) throw err;
 
-    var sql2 = "SELECT TE.Client_ID FROM mydb.Transaction T,mydb.Transaction_Execution TE where T.Transaction_ID = TE.Transaction_ID group by(TE.Client_ID);";
+    var sql2 = "SELECT T.Client_ID FROM DbProject.Transaction T,DbProject.Client C where T.Client_ID = C.Client_ID group by(T.Client_ID);";
     db.query(sql2, function (err, results2) {
       if (err) throw err;
 
-      var sql3 = "SELECT TE.Trader_ID FROM mydb.Transaction T,mydb.Transaction_Execution TE where T.Transaction_ID = TE.Transaction_ID group by(TE.Trader_ID); ";
+      var sql3 = "SELECT T.Trader_ID FROM DbProject.Transaction T,DbProject.Trader Tr where T.Trader_ID = Tr.Trader_ID group by(T.Trader_ID); ";
       db.query(sql3, function (err, results3) {
         if (err) throw err;
 
@@ -41,7 +41,7 @@ router.get('/daily-clogs', function (req, res) {
   var date = new Date();
   date = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
 
-  var sql = `SELECT * FROM mydb.Transaction T, mydb.Transaction_Execution E where T.Transaction_ID = E.Transaction_ID and E.Trader_ID IS NULL and T.Date_Time = DATE('${date}') ;`;
+  var sql = `SELECT * FROM DBProject.Transaction T where T.Trader_ID IS NULL and T.Date_Time = DATE('${date}') ;`;
   db.query(sql, function (err, results) {
     if (err) throw err;
 
@@ -53,7 +53,7 @@ router.get('/daily-tlogs', function (req, res) {
   var date = new Date();
   date = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
 
-  var sql = `SELECT * FROM mydb.Transaction T, mydb.Transaction_Execution E where T.Transaction_ID = E.Transaction_ID and E.Trader_ID != '' and T.Date_Time = DATE('${date}') ;`;
+  var sql = `SELECT * FROM DBProject.Transaction T where T.Trader_ID != '' and T.Date_Time = DATE('${date}') ; `;
   db.query(sql, function (err, results) {
     if (err) throw err;
 
@@ -66,7 +66,7 @@ router.get('/weekly-clogs', function (req, res) {
   var date = new Date();
   date = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
 
-  var sql = `SELECT * FROM mydb.Transaction T, mydb.Transaction_Execution E where T.Transaction_ID = E.Transaction_ID and E.Trader_ID IS NULL and datediff(DATE('${date}'), DATE(T.Date_Time)) <= 7;`;
+  var sql = `SELECT * FROM Transaction T where T.Trader_ID IS NULL and datediff(DATE('${date}'), DATE(T.Date_Time)) <= 7;`;
   db.query(sql, function (err, results) {
     if (err) throw err;
 
@@ -78,7 +78,7 @@ router.get('/weekly-tlogs', function (req, res) {
   var date = new Date();
   date = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
 
-  var sql = `SELECT * FROM mydb.Transaction T, mydb.Transaction_Execution E where T.Transaction_ID = E.Transaction_ID and E.Trader_ID != '' and datediff(DATE('${date}'), DATE(T.Date_Time)) <= 7;`;
+  var sql = `SELECT * FROM DBProject.Transaction T where T.Trader_ID != '' and datediff(DATE('${date}'), DATE(T.Date_Time)) <= 7; `;
   db.query(sql, function (err, results) {
     if (err) throw err;
 
@@ -91,7 +91,7 @@ router.get('/monthly-clogs', function (req, res) {
   var date = new Date();
   date = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
 
-  var sql = `SELECT * FROM mydb.Transaction T, mydb.Transaction_Execution E where T.Transaction_ID = E.Transaction_ID and E.Trader_ID IS NULL and datediff(DATE('${date}'), DATE(T.Date_Time)) <= 30;`;
+  var sql = `SELECT * FROM Transaction T where T.Trader_ID IS NULL and datediff(DATE('${date}'), DATE(T.Date_Time)) <= 30;`;
   db.query(sql, function (err, results) {
     if (err) throw err;
 
@@ -103,7 +103,7 @@ router.get('/monthly-tlogs', function (req, res) {
   var date = new Date();
   date = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
 
-  var sql = `SELECT * FROM mydb.Transaction T, mydb.Transaction_Execution E where T.Transaction_ID = E.Transaction_ID and E.Trader_ID != '' and datediff(DATE('${date}'), DATE(T.Date_Time)) <= 30;`;
+  var sql = `SELECT * FROM DBProject.Transaction T where T.Trader_ID != '' and datediff(DATE('${date}'), DATE(T.Date_Time)) <= 30 ;`;
   db.query(sql, function (err, results) {
     if (err) throw err;
 
@@ -118,7 +118,7 @@ router.post('/datewise-Commision', function (req, res) {
     var start_date = req.body.start_date;
     var end_date = req.body.end_date;
 
-    var sql = `select sum(Commision_Paid) as commision from Transaction T where Commision_type = 'Dollars' and T.Date_Time >= DATE('${start_date}') and T.Date_Time <= DATE('${end_date}') ;`;
+    var sql = `Select sum(Commision_Paid) as commision from Transaction T where Commision_Type = 'Dollar' and T.Date_Time >= DATE('${start_date}') and T.Date_Time <= DATE('${end_date}') ;`;
 
     db.query(sql, function (err, results) {
       if (err) throw err;
@@ -139,7 +139,7 @@ router.post('/datewise-Commision', function (req, res) {
     var start_date = req.body.start_date;
     var end_date = req.body.end_date;
 
-    var sql = `select sum(Commision_Paid) as commision from Transaction T where Commision_type = 'Bitcoins' and T.Date_Time >= DATE('${start_date}') and T.Date_Time <= DATE('${end_date}') ;`;
+    var sql = `Select sum(Commision_Paid) as commision from Transaction T where Commision_Type = 'Bitcoin' and T.Date_Time >= DATE('${start_date}') and T.Date_Time <= DATE('${end_date}') ;`;
     db.query(sql, function (err, results) {
 
       if (err) throw err;
