@@ -173,6 +173,20 @@ router.post('/datewise-logs', function (req, res) {
   });
 });
 
+router.get('/audit-logs', function (req, res) {
+
+  
+  //var sql = `select distinct T.Transaction_ID,T.Transaction_Amount, T.Transaction_type, TE.Client_ID, C.User_ID, U.First_Name, U.Phone_number from Transaction T, Transaction_Execution TE, Client C, User U where T.Transaction_ID = TE.Transaction_ID and TE.Client_ID = C.Client_ID and C.User_ID = U.User_ID;`;
+  db.query(`SELECT * FROM TRANSACTION T where T.status='cancelled' `, function (err, results) {
+    if (err) throw err;
+
+    //console.log("Results with data range: " + results);
+
+    var message = 'Cancelled Transaction Logs';
+    res.render('manager', { title: message, data: results });
+  });
+});
+
 
 module.exports = router;
 

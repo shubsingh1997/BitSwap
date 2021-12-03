@@ -152,30 +152,30 @@ exports.register = (req, res) => {
       console.log(hashedPassword);
 
       
-      db.query( "INSERT INTO user SET ?", {
-          User_ID: user_id,
-          SSN: ssn,
-          First_Name: firstname,
-          Last_Name: lastname,
-          Phone_number: phone,
-          Cellphone_Number: cellphone,
-          email: email,
-          password: hashedPassword,
-      },
-        (error, results) => {
-          if (error) {
-            console.log(error);
-            return res.render("register", {
-              message: "User with SSN is already there",
-            });
-          } else {
-            console.log(results);
-            return res.render("register", {
-              message: "User registered",
-            });
-          }
-        }
-      );
+      // db.query( "INSERT INTO user SET ?", {
+      //     User_ID: user_id,
+      //     SSN: ssn,
+      //     First_Name: firstname,
+      //     Last_Name: lastname,
+      //     Phone_number: phone,
+      //     Cellphone_Number: cellphone,
+      //     email: email,
+      //     password: hashedPassword,
+      // },
+      //   (error, results) => {
+      //     if (error) {
+      //       console.log(error);
+      //       return res.render("register", {
+      //         message: "User with SSN is already there",
+      //       });
+      //     } else {
+      //       console.log(results);
+      //       return res.render("register", {
+      //         message: "User registered",
+      //       });
+      //     }
+      //   }
+      // );
       console.log("value " + radio1);
       if (radio1 == "Client") {
         db.query(
@@ -196,7 +196,10 @@ exports.register = (req, res) => {
           }
         );
         let client_id = "C_".concat("", user_id);
-       
+        
+      
+
+
         if (checkbox1 == "on"){
 
           db.query("select Trader_ID from trader ORDER BY RAND() LIMIT 1", (error,results) =>{
@@ -209,10 +212,22 @@ exports.register = (req, res) => {
                 } else {
                   console.log(results);
                 }
+                db.query(
+                  "INSERT INTO wallet SET ?",
+                  { Client_ID: client_id, D_amount: 0, B_amount: 0 },
+                  (error, results) => {
+                    if (error) {
+                      console.log(error);
+                    } else {
+                      console.log(results);
+                    }
+                  }
+                );
               }
             );
           
           });
+
         } else{
           db.query(
             "INSERT INTO client SET ?",
@@ -223,6 +238,17 @@ exports.register = (req, res) => {
               } else {
                 console.log(results);
               }
+              db.query(
+                "INSERT INTO wallet SET ?",
+                { Client_ID: client_id, D_amount: 0, B_amount: 0 },
+                (error, results) => {
+                  if (error) {
+                    console.log(error);
+                  } else {
+                    console.log(results);
+                  }
+                }
+              );
             }
           );
          
@@ -230,17 +256,7 @@ exports.register = (req, res) => {
         //console.log(x);
           
         
-        db.query(
-          "INSERT INTO wallet SET ?",
-          { Client_ID: client_id, D_amount: 0, B_amount: 0 },
-          (error, results) => {
-            if (error) {
-              console.log(error);
-            } else {
-              console.log(results);
-            }
-          }
-        );
+        
       } else if (radio1 == "Manager") {
         let manager_id = "M_".concat("", user_id);
         db.query(
@@ -271,18 +287,11 @@ exports.register = (req, res) => {
     }
   );
 });
+}
 
         
       
-      db.query('INSERT INTO wallet SET ?', { Client_ID: client_id, D_amount: 0, B_amount: 0 }, (error, results) => {
-        if (error) {
-          console.log(error);
-        } else {
-          console.log(results);
-
-        }
-      });
-    }
+      
     
   exports.isLoggedIn = (req, res, next) => {
     // console.log(req.cookies);
@@ -612,4 +621,5 @@ exports.register = (req, res) => {
       console.log(error);
       next();
     }
-  };
+  }
+
