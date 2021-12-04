@@ -604,7 +604,7 @@ exports.register = (req, res) => {
               "SELECT Date_Time,Wallet_Transaction_Amount FROM wallet_transaction where Client_ID = ?",
               [client_id],
               (error, result) => {
-                console.log(result);
+                //console.log("Wallet Transactions: " + result);
                 if (!result) {
                   return next();
                 }
@@ -614,7 +614,7 @@ exports.register = (req, res) => {
           }
         );
 
-        res.status(200).redirect("/profile");
+       // res.status(200).redirect("/profile");
       }
     } catch (error) {
       console.log(error);
