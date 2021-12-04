@@ -1,4 +1,4 @@
-const mysql = require("mysql");
+  const mysql = require("mysql");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const { promisify } = require("util");
@@ -284,6 +284,8 @@ exports.register = (req, res) => {
           }
         );
       }
+
+      res.status(200).redirect('/login');
     }
   );
 });
@@ -606,10 +608,7 @@ exports.register = (req, res) => {
                 if (!result) {
                   return next();
                 }
-                return render("/wallet", {
-                  title: "Transaction of dollars in wallet",
-                  data: result[0],
-                });
+                 return res.status(200).json(result);
               }
             );
           }

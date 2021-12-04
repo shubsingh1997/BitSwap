@@ -2,7 +2,7 @@ const mysql = require("mysql");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const { promisify } = require("util");
-const env = require('process')
+const env = require('process');
 
 const db = mysql.createConnection({
     host: process.env.DATABASE_HOST,
@@ -31,7 +31,8 @@ exports.buysell = async (req, res, next) => {
             (error, result) => {
                 var client_user = result[0];
                 res.status(200).render("trader_payment", {
-                    user: client_user
+                    user: client_user,
+                    coinPrice: env.BITCOIN
                 })
             }
         );

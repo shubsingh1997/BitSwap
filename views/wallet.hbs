@@ -48,7 +48,7 @@
             <p class="card-text">
               Add Dollars  <input type="radio" class="Positive" name="radio1" value="positive" onClick="getResults(this)">    
               Remove Dollars  <input type="radio" class="Negative" name="radio1" value="negative" onclick="getResults(this)">
-              show transactions  <input type="radio" class="Show" name="radio1" value="show_tranasaction" onclick="getResults(this)">   
+              Show transactions  <input type="radio" class="Show" name="radio1" value="show_tranasaction" onclick="getResults(this)">   
               <div class="positive">
                 <form action="/auth/wallet/positive" method="POST">
         
@@ -57,11 +57,12 @@
 
                 <div class="dollars"><label> Add $ Amount bellow  </label>
                 <input type="number" class="form-control" id="D_amount" name="D_amount">
-                <button type="button" class="btn btn-primary" onclick="getConfirmation_P(D_amount)">Add Dollars</button></div>
+                <br/>
+                <button type="button" class="btn btn-primary" onclick="getConfirmation_P(D_amount)"> Add Dollars</button></div>
                 
-                
+                  <br/>
                 <div class="submission_P">
-                <button type="submit" class="btn btn-primary" >Confirm</button>
+                <button type="submit" class="btn btn-success" >Confirm</button>
                 </div>
 
                 </form>
@@ -74,11 +75,12 @@
 
                 <div class="dollars"><label> Remove $ Amount bellow  </label>
                 <input type="number" class="form-control" id="D_amount" name="D_amount">
+                <br/>
                 <button type="button" class="btn btn-primary" onclick="getConfirmation_N(D_amount)">Remove Dollars</button></div>
                 
-                
+                <br/>
                 <div class="submission_N">
-                <button type="submit" class="btn btn-primary" >Confirm</button>
+                <button type="submit" class="btn btn-success" >Confirm</button>
                 </div>
                 
                 </form>
@@ -140,7 +142,7 @@
     function getConfirmation_P(type){
         if (type ="D_amount"){
           console.log("D_amount");
-            var r = confirm("You are adding" + document.getElementById(type).value + " Dollars to your account" );
+            var r = confirm("You are adding " + document.getElementById(type).value + " Dollars to your account" );
             if (r == true)
             {
               $(".submission_P").show();
@@ -152,7 +154,7 @@
     function getConfirmation_N(type){
         if (type ="D_amount"){
           console.log("D_amount");
-            var r = confirm("You are removing" + document.getElementById(type).value + " Dollars to your account" );
+            var r = confirm("You are removing " + document.getElementById(type).value + " Dollars to your account" );
             if (r == true)
             {
               $(".submission_N").show();
