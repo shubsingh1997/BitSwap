@@ -1,24 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
   <link rel="stylesheet" href="/style.css">
   <title>Document</title>
-<!DOCTYPE HTML>
-<html>
-<head>
+  <!DOCTYPE HTML>
+  <html>
 
-<style>
-.switch {
+  <head>
+
+    <style>
+      .switch {
         position: relative;
         display: inline-block;
         width: 150px;
         height: 34px;
       }
 
-      .switch input {display:none;}
+      .switch input {
+        display: none;
+      }
 
       .slider {
         position: absolute;
@@ -52,52 +57,53 @@
         transition: .4s;
       }
 
-      input:checked + .slider {
+      input:checked+.slider {
         background-color: #2ab934;
       }
 
-      input:focus + .slider {
+      input:focus+.slider {
         box-shadow: 0 0 1px #2196F3;
       }
 
-      input:checked + .slider:before {
+      input:checked+.slider:before {
         -webkit-transform: translateX(117px);
         -ms-transform: translateX(117px);
         transform: translateX(117px);
       }
 
-      .on
-      {
+      .on {
         display: none;
       }
 
-      .on, .off
-      {
+      .on,
+      .off {
         color: white;
         position: absolute;
-        transform: translate(-50%,-50%);
+        transform: translate(-50%, -50%);
         top: 50%;
         left: 50%;
         font-size: 10px;
         font-family: Verdana, sans-serif;
       }
 
-      input:checked+ .slider .on
-      {display: block;}
+      input:checked+.slider .on {
+        display: block;
+      }
 
-      input:checked + .slider .off
-      {display: none;}
+      input:checked+.slider .off {
+        display: none;
+      }
+    </style>
 
-</style>
 
- 
- 
- <script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
- </head>
+
+    <script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+  </head>
 
 </head>
+
 <body>
-     <nav>
+  <nav>
     <h4>BitSwap</h4>
     <ul>
       <li><a href="/">Home</a></li>
@@ -111,7 +117,7 @@
       <div class="col-4">
         <div class="card">
           <div class="avatar-ctn">
-            <img src="/avatar.png" class="avatar" alt="user profile picture"/>
+            <img src="/avatar.png" class="avatar" alt="user profile picture" />
           </div>
           <div class="card-body" style="background-color:{{user.Tier}};text-align: center ">
             <h5 class="card-title" align="text-center">{{user.First_Name}}</h5>
@@ -122,151 +128,156 @@
         </div>
       </div>
 
-  <div class="col-8">
+      <div class="col-8">
         <div class="card text-center">
           <div class="card-header">
             Live Bitcoin Price : {{BIT}}
-            </div>
-                <div class="card-body">
-                    <h5 class="card-title">Select what you want to do</h5>
-                        <p class="card-text">
-
-                          
-
-                        <form action="/payment/transactions_B" method="POST">
-                            
-                            <div class="buy"><label> Enter the Bitcoin amount you want to Buy.   </label>
-                            <input type="number" class="form-control" id="Buy" name="Buy" step="0.00001">
-                            <button type="button" class="btn btn-primary" onclick="getConfirmation_B(Buy)">Buy Bitcoins</button></div>
-                
-                
-                            <div class="submission_B">
-                            <button type="submit" class="btn btn-primary" >Confirm</button>
-                            </div>
-                            <div align="center" id="bit00_3">
-                            <label class="switch">
-                            <input type="checkbox" id="checkbox1" name="checkbox1">
-
-                            <div class="slider round" >
-                              <span class="on">DOLLARS</span>
-                              <span class="off">BITCOINS</span>
-                            </div>
-                            
-                            </label>
-                          
-                          </div>
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">Select what you want to do</h5>
+            <p class="card-text">
 
 
-                        </form>
-                        <form action="/payment/transactions_S" method="POST">
-        
-                
-                
 
-                            <div class="sell"><label> Enter the Bitcoin amount you want to Sell.   </label>
-                            <input type="number" class="form-control" id="Sell" name="Sell" step="0.00001">
-                            <button type="button" class="btn btn-primary" onclick="getConfirmation_S(Sell)">Sell Bitcoins</button></div>
-                
-                
-                            <div class="submission_S">
-                            <button type="submit" class="btn btn-primary" >Confirm</button>
-                            </div>
+            <form action="/payment/transactions_B" method="POST">
 
-                            <div align="center" id="bit00_3">
-                            <label class="switch">
-                            <input type="checkbox" id="checkbox2" name="checkbox2">
+              <div class="buy"><label> Enter the Bitcoin amount you want to Buy. </label>
+                <input type="number" class="form-control" id="Buy" name="Buy" step="0.00001">
+                <br/>
+                <button type="button" class="btn btn-primary" onclick="getConfirmation_B(Buy)">Buy Bitcoins</button>
+              </div>
 
-                            <div class="slider round">
-                              <span class="on">DOLLARS</span>
-                              <span class="off">BITCOINS</span>
-                            </div>
-                            
-                            </label>
-                          
-                          </div>
+              <br/>
+              <div class="submission_B">
+                <button type="submit" class="btn btn-success"> Confirm</button>
+              </div>
+              <br/>
+              <div align="center" id="bit00_3">
+                <label class="switch">
+                  <input type="checkbox" id="checkbox1" name="checkbox1">
 
-                        </form>
-                    
+                  <div class="slider round">
+                    <span class="on">DOLLARS</span>
+                    <span class="off">BITCOINS</span>
+                  </div>
 
-                        </p>
-                        {{#if message }}
-                            <h4 class="alert alert-danger mt-4">{{message}}</h4>
-                        {{/if}}
-                        
-                </div>
-                <div class="card-footer text-muted">
-                    BitSwap
-            
-                </div>
-            </div>
-            
+                </label>
+
+              </div>
+
+
+            </form>
+            <form action="/payment/transactions_S" method="POST">
+
+
+
+
+              <div class="sell"><label> Enter the Bitcoin amount you want to Sell. </label>
+                <input type="number" class="form-control" id="Sell" name="Sell" step="0.00001">
+                <br/>
+                <button type="button" class="btn btn-primary" onclick="getConfirmation_S(Sell)">Sell Bitcoins</button>
+              </div>
+
+              <br/>
+              <div class="submission_S">
+                <button type="submit" class="btn btn-success"> Confirm</button>
+              </div>
+              <br/>
+              <div align="center" id="bit00_3">
+                <label class="switch">
+                  <input type="checkbox" id="checkbox2" name="checkbox2">
+
+                  <div class="slider round">
+                    <span class="on">DOLLARS</span>
+                    <span class="off">BITCOINS</span>
+                  </div>
+
+                </label>
+
+              </div>
+
+            </form>
+
+
+            </p>
+            {{#if message }}
+            <h4 class="alert alert-danger mt-4">{{message}}</h4>
+            {{/if}}
+
+          </div>
+          <div class="card-footer text-muted">
+            BitSwap
+
+          </div>
+        </div>
+
+      </div>
+
+
     </div>
+    <div class="embed-responsive embed-responsive-21by9">
 
-   
-  </div>
-  <div class="embed-responsive embed-responsive-21by9">
-   
-   <iframe src="/live_bitcoin_chart" width="1000px" height="600px" scrolling="no" title="Iframe Example"  ></iframe>
-   <br>
-   <br>
-   <br>
-   <br>
-   <br>
+      <iframe src="/live_bitcoin_chart" width="1000px" height="600px" scrolling="no" title="Iframe Example"></iframe>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
 
-   </div>
-<!-- <iframe src="demo_iframe.htm" height="200" width="300" title="Iframe Example"></iframe> -->
+    </div>
+    <!-- <iframe src="demo_iframe.htm" height="200" width="300" title="Iframe Example"></iframe> -->
 
-<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-  <script>$(document).ready(function() {
-       $(".submission_B").hide();
-       $(".submission_S").hide();
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+      integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+      crossorigin="anonymous"></script>
+    <script>$(document).ready(function () {
+        $(".submission_B").hide();
+        $(".submission_S").hide();
 
-       //console.log(document.getElementById(com).value);
-   
-    });
-    function getConfirmation_B(type){
-        if (type ="Buy"){
+        //console.log(document.getElementById(com).value);
+
+      });
+      function getConfirmation_B(type) {
+        if (type = "Buy") {
           console.log("Buy");
-            var r = confirm("You are buying" + document.getElementById(type).value + " bitcoins" );
-            
-            
-            if (r == true)
-            {
-              $(".submission_B").show();
-            }
+          var r = confirm("You are buying " + document.getElementById(type).value + " bitcoins");
+
+
+          if (r == true) {
+            $(".submission_B").show();
+          }
         }
-        
-    };
 
-     var value1 = 1;
-  //you can put the checkbox in a variable, 
-  //this way you do not need to do a javascript query every time you access the value of the checkbox
-	var checkbox1 = document.getElementById("checkbox1")
-	checkbox1.checked = value1
-	document.getElementById("checkbox1").addEventListener("change", function(element){
-		console.log(checkbox1.checked)
+      };
 
-	});
-var value2 =1;
-  	var checkbox2 = document.getElementById("checkbox2")
-	checkbox2.checked = value2
-	document.getElementById("checkbox2").addEventListener("change", function(element){
-		console.log(checkbox2.checked)
+      var value1 = 1;
+      //you can put the checkbox in a variable, 
+      //this way you do not need to do a javascript query every time you access the value of the checkbox
+      var checkbox1 = document.getElementById("checkbox1")
+      checkbox1.checked = value1
+      document.getElementById("checkbox1").addEventListener("change", function (element) {
+        console.log(checkbox1.checked)
 
-	});
+      });
+      var value2 = 1;
+      var checkbox2 = document.getElementById("checkbox2")
+      checkbox2.checked = value2
+      document.getElementById("checkbox2").addEventListener("change", function (element) {
+        console.log(checkbox2.checked)
 
-function getConfirmation_S(type){
-        if (type ="Sell"){
+      });
+
+      function getConfirmation_S(type) {
+        if (type = "Sell") {
           console.log("Sell");
-            var r = confirm("You are selling" + document.getElementById(type).value + " bitcoins" );
-            if (r == true)
-            {
-              $(".submission_S").show();
-            }
+          var r = confirm("You are selling " + document.getElementById(type).value + " bitcoins");
+          if (r == true) {
+            $(".submission_S").show();
+          }
         }
-        
-    };
-</script>
+
+      };
+    </script>
 
 
 
