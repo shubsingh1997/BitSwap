@@ -4,7 +4,7 @@ const bcrypt = require("bcryptjs");
 const { promisify } = require("util");
 const env = require('process');
 
-const db = mysql.createConnection({
+const db = mysql.createPool({
     host: process.env.DATABASE_HOST,
     user: process.env.DATABASE_USER,
     password: process.env.DATABASE_PASSWORD,

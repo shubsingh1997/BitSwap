@@ -5,7 +5,7 @@ const { result, functionsIn } = require('lodash');
 const { urlencoded } = require('express');
 let router = express.Router();
 
-let db = mysql.createConnection({
+let db = mysql.createPool({
   host: process.env.DATABASE_HOST,
   user: process.env.DATABASE_USER,
   password: process.env.DATABASE_PASSWORD,
