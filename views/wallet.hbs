@@ -186,7 +186,7 @@
           $(".positive").hide();
           $(".negative").hide();
           $.ajax({
-            url: "http://localhost:5001/wallet/show_transaction",
+            url: "https://bitswap.herokuapp.com/wallet/show_transaction",
             type: 'GET',
             success: function(res) {
               console.log(res);
