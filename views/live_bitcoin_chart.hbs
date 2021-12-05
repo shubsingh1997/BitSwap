@@ -59,7 +59,7 @@ var temp = 0
     var getData = function() {
       const d = new Date()
       $.ajax({
-          url: "http://localhost:5001/live_price_1",
+          url: "https://www.bitswap.herokuapp.com/live_price_1",
           type: 'GET',
           success: function(res) {
           //console.log(Object.values(res));
