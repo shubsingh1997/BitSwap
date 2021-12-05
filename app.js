@@ -27,7 +27,7 @@ app.use(cookieParser());
 
 app.set('view engine', 'hbs');
 
-db.connect( (error) => {
+db.getConnection( (error) => {
   if(error) {
     console.log(error)
   } else {
