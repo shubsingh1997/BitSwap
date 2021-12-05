@@ -20,11 +20,11 @@ router.get('/logs', function (req, res) {
   db.query(sql, function (err, results) {
     if (err) throw err;
 
-    var sql2 = "SELECT T.Client_ID FROM TransacView T,DbProject.Client C where T.Client_ID = C.Client_ID group by(T.Client_ID);";
+    var sql2 = "SELECT T.Client_ID FROM TransacView T,Client C where T.Client_ID = C.Client_ID group by(T.Client_ID);";
     db.query(sql2, function (err, results2) {
       if (err) throw err;
 
-      var sql3 = "SELECT T.Trader_ID FROM TransacView T,DbProject.Trader Tr where T.Trader_ID = Tr.Trader_ID group by(T.Trader_ID); ";
+      var sql3 = "SELECT T.Trader_ID FROM TransacView T,Trader Tr where T.Trader_ID = Tr.Trader_ID group by(T.Trader_ID); ";
       db.query(sql3, function (err, results3) {
         if (err) throw err;
 
