@@ -40,6 +40,8 @@ app.use('/', require('./routes/pages'));
 app.use('/auth', require('./routes/auth'));
 app.use('/manager', require('./routes/manager'));
 
-app.listen(5001, () => {
-  console.log("Server started on Port 5001");
-})
+
+const PORT = process.env.PORT || 5001;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}.`);
+});
